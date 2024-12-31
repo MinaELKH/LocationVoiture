@@ -7,7 +7,6 @@ function openModal(modalId) {
   
 
   function openModal(modalId , id) {
-    alert(id) ; 
     document.getElementById(modalId).classList.remove('hidden');
     document.getElementById("id_ref").value = id ; 
   

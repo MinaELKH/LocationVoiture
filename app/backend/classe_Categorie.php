@@ -5,17 +5,20 @@ class Categorie
     private DatabaseManager $dbManager;
     private ?int $id_categorie;
     private ?string $nom;
+    private ?string $description;
     private ?string $archive;
 
     public function __construct(
         DatabaseManager $dbManager,
         ?int $id_categorie = null,
         ?string $nom = null,
+        ?string $description = null,
         ?string $archive = '0'
     ) {
         $this->dbManager = $dbManager;
         $this->id_categorie = $id_categorie;
         $this->nom = $nom;
+        $this->description = $description;
         $this->archive = $archive;
     }
 
@@ -37,6 +40,7 @@ class Categorie
         $data = [
             'id_categorie' => $this->id_categorie,
             'nom' => $this->nom,
+            'description' => $this->description,
             'archive' => $this->archive
         ];
         return $this->dbManager->insert('categorie', $data);
@@ -47,6 +51,7 @@ class Categorie
     {
         $data = [
             'nom' => $this->nom,
+            'description' => $this->description,
             'archive' => $this->archive
         ];
         $condition = ['id_categorie' => $this->id_categorie];
@@ -60,4 +65,6 @@ class Categorie
         $condition = ['id_categorie' => $this->id_categorie];
         return $this->dbManager->Update('categorie', $data, $condition);
     }
+
+    
 }

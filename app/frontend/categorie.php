@@ -3,6 +3,7 @@ ob_start();
 
 $title = "Gestion des Catégories";
 require "../backend/classe_Categorie.php";
+require "../backend/classe_Vehicule.php";
 require_once __DIR__ . '/../../includ/DB.php';
 require_once __DIR__ . '/../../includ/DatabaseManager.php';
 $dbManager = new DatabaseManager();
@@ -29,11 +30,11 @@ if (isset($_POST["edit"])) {
 </div>
 
 <div id="modal" class="<?= $actionEdit ? '' : 'hidden' ?> fixed inset-0 flex items-center z-50 justify-center bg-white bg-opacity-50">
-    <div class="relative p-6 shadow-xl rounded-lg bg-white text-gray-900 overflow-y-auto lg:w-1/3">
+    <div class="relative p-6 shadow-xl rounded-lg bg-white text-gray-900 overflow-auto h-[500px] lg:w-1/3">
         <span id="closeForm" onclick="closeModal('modal')" class="absolute right-4 top-4 text-gray-600 hover:text-gray-900 cursor-pointer material-symbols-outlined text-2xl">cancel</span>
         <h2 class="text-2xl font-bold mb-6 text-center text-yellow-500"><?= $actionEdit ? 'Modifier Catégorie' : 'Ajouter Catégorie' ?></h2>
         <p id="pargErreur" class="hidden text-sm font-semibold px-4 py-2 mb-4 text-red-700 bg-red-100 border border-red-400 rounded"></p>
-        <form id="formulaire" class="flex flex-col gap-4" action="Categorie.php" method="post">
+        <form id="formulaire" class="flex flex-col gap-4" action="Categorie.php" method="post"   enctype="multipart/form-data">
             <input id="id_input" type="hidden" name="id" value="<?= $actionEdit ? $objCategorie->id_categorie : 0 ?>">
             <input id="action" type="hidden" name="action" value="<?= $actionEdit ? 'edit' : 'ajout' ?>">
 
@@ -43,18 +44,91 @@ if (isset($_POST["edit"])) {
             </div>
             <div>
                 <label for="description" class="block font-medium mb-1">Description</label>
-                <textarea id="description" name="description" rows="4" cols="50">
+                <textarea id="description" name="description" placeholder="Nom de la catégorie" value="<?= $actionEdit ? $objCategorie->description : '' ?>" class="inputformulaire w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" required> 
                 </textarea>
             </div>
+
+
+            <div id="divVehicules" class="col-span-2 flex flex-col gap-2.5 ">
+         </div>
+            <div class="col-span-2 flex justify-between gap-8">
+                <button type="button" id="addVehicule_Btn"
+                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-lg">
+                    +
+                </button>
+            </div>
+
+
+
             <div class="flex justify-center">
                 <button type="submit" name="valider" class="w-full bg-[#7F020F] hover:bg-red-700 text-white font-bold py-2 rounded-lg">Valider</button>
             </div>
         </form>
     </div>
 </div>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const divVehicules = document.getElementById('divVehicules');
+            const addVehicule_Btn = document.getElementById('addVehicule_Btn');
+            const firstVehicule = document.getElementById('firstVehicule');
+          //  firstVehicule.querySelector('.removeVehicule').addEventListener('click', function() {
+          //          divVehicules.removeChild(firstVehicule);
+          //      });
+            addVehicule_Btn.addEventListener('click', function() {
+                 alert ("help") ; 
+                const newVehicule = document.createElement('div');
+                newVehicule.className = 'relative bg-gray-300 border-2 border-orange-100 grid grid-cols-2 gap-4 p-2.5';
+                newVehicule.innerHTML = ` 
+                    <!-- Nom du Vehicule -->
+                     <span 
+            class=" removeVehicule absolute right-1 top-1 text-red-600 hover:text-gray-900 cursor-pointer material-symbols-outlined text-xl">
+            cancel
+        </span>
+        
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type='hidden' name="AjoutMultiple" value=''>
+                <div> 
+                    <label for="nom" class="block font-medium mb-1">Nom</label>
+                    <input id="nom" name="vehicules[nom][]" type="text" placeholder="Nom du véhicule" value="" class="inputformulaire w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" required>
+                </div>
+                <div>
+                    <label for="prix" class="block font-medium mb-1">Prix</label>
+                    <input id="prix" name="vehicules[prix][]" type="number" placeholder="Prix du véhicule" value="" class="inputformulaire w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" required>
+                </div>
+                <div>
+                    <label for="marque" class="block font-medium mb-1">Marque</label>
+                    <input id="marque" name="vehicules[marque][]" type="text" placeholder="Marque du véhicule" value="" class="inputformulaire w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" required>
+                </div>
+
+                <div>
+                    <label for="model" class="block font-medium mb-1">Modèle</label>
+                    <input id="model" name="vehicules[model][]" type="text" placeholder="Modèle du véhicule" value="" class="inputformulaire w-full bg-gray-50 border border-gray-300 rounded-lg p-2 text-sm" required>
+                </div>
+              
+
+                           <div class="col-span-2">
+                <label for="photo" class="block text-sm font-medium text-gray-700">Photo</label>
+                <input name="vehicules[imgVehicule][]" type="file" accept="image/*" class="w-full p-2 border border-gray-300 rounded-lg" required>
+            </div>
+          
+            </div>
+
+        
+                `;
+                divVehicules.appendChild(newVehicule);
+
+                // Ajout de l'écouteur d'événements de suppression
+                newVehicule.querySelector('.removeVehicule').addEventListener('click', function() {
+                    divVehicules.removeChild(newVehicule);
+                });
+            });
+        });
+    </script>
+
 
 <?php
-if (isset($_POST['valider'])) {
+// edite add
+if (isset($_POST['valider']) && !isset($_POST['AjoutMultiple'])) {
     $nom = $_POST['nom'];
     $description = $_POST['description'];
     $id = $_POST['id'];
@@ -134,6 +208,115 @@ function affiche() {
         echo "<p>Aucune catégorie trouvée.</p>";
     }
 }
+
+
+function uploadImage($file, $uploadsDir = 'uploads/', $maxSize = 2 * 1024 * 1024, $allowedTypes = ['image/jpeg', 'image/png', 'image/gif']) {
+    if (isset($file) && $file['error'] === UPLOAD_ERR_OK) {
+        $photoTmpName = $file['tmp_name'];
+        $photoName = basename($file['name']);
+        $photoSize = $file['size'];
+        $photoType = mime_content_type($photoTmpName);
+
+        // Vérification du type
+        if (!in_array($photoType, $allowedTypes)) {
+            return ['success' => false, 'message' => "Type de fichier non supporté. Veuillez utiliser JPEG, PNG ou GIF."];
+        }
+
+        // Vérification de la taille
+        if ($photoSize > $maxSize) {
+            return ['success' => false, 'message' => "Le fichier est trop volumineux. Limite de " . ($maxSize / (1024 * 1024)) . " Mo."];
+        }
+
+        // Création du chemin d'enregistrement avec un nom unique
+        $photoPath = $uploadsDir . uniqid() . '-' . $photoName;
+      //  $photoPath1 = $uploadsDir . uniqid() . '-' . $photoName;
+        // Déplacement du fichier
+        if (move_uploaded_file($photoTmpName, "$photoPath")) {
+            return ['success' => true, 'filePath' => $photoPath];
+        } else {
+            return ['success' => false, 'message' => "Erreur lors de l'upload de l'image."];
+        }
+    } else {
+        return ['success' => false, 'message' => "Aucun fichier sélectionné ou erreur lors de l'upload."];
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" &&  isset($_POST['valider']) && isset($_POST['AjoutMultiple'])) {
+
+    $nom = $_POST['nom'];
+    $description = $_POST['description'];
+    $id = $_POST['id'];
+
+    $newCategorie = new Categorie($dbManager, $id, $nom , $description );
+    $result = $newCategorie->ajouterCategorie();
+    $id_categorie = $dbManager->getLastInsertId() ; 
+    var_dump($id_categorie) ; 
+    if (isset($_POST['vehicules']['nom'])) {
+            $nom = $_POST['vehicules']['nom'];
+            $marque = $_POST['vehicules']['marque'];
+            $model = $_POST['vehicules']['model'];
+            $prix =  ($_POST['vehicules']['prix']);
+
+          //  $uploadResult = uploadImage($_FILES['vehicules']['urlPhoto']);
+          //  $urlPhoto = $uploadResult['filePath'];
+
+            $disponibilite = 1;
+            $archive =0 ;
+            
+       
+     // Correction
+      
+        for ($i = 0; $i < count($nom); $i++) {
+                $nomvehicule =  $nom[$i];
+                $marque = $marque[$i];
+                $model = $model[$i];
+                $prix =  floatval($prix[$i]);
+               // vehicules[urlPhoto][]"
+
+               if (isset($_FILES['vehicules']['name']['imgVehicule'][$i])) {
+                $file = [
+                    'name' => $_FILES['vehicules']['name']['imgVehicule'][$i],
+                    'type' => $_FILES['vehicules']['type']['imgVehicule'][$i],
+                    'tmp_name' => $_FILES['vehicules']['tmp_name']['imgVehicule'][$i],
+                    'error' => $_FILES['vehicules']['error']['imgVehicule'][$i],
+                    'size' => $_FILES['vehicules']['size']['imgVehicule'][$i],
+                ];
+            
+              
+                
+                    $uploadResult = uploadImage($file);  
+                 
+
+                  if ($uploadResult['success']) {
+                    $urlPhoto= $uploadResult['filePath'];
+                    $newVehicule = new Vehicule(
+                        $dbManager,  
+                        $id,  
+                        $nomvehicule, 
+                        $marque, 
+                        $model,  
+                        $disponibilite,  
+                        $prix, 
+                        $archive,
+                        $urlPhoto,  
+                        $id_categorie  
+                    );
+
+                     
+                    $result = $newVehicule->AjouterVehicule() ;
+                    } else {
+                        // Gestion des erreurs de téléchargement
+                        echo "<script>alert('Erreur de téléchargement pour l'image du vehicule " . htmlspecialchars($nomvehicule, ENT_QUOTES, 'UTF-8') . "');</script>";
+                    }
+                } 
+            
+        }
+    }
+
+
+
+}
+
 ?>
 <?php
 $content = ob_get_clean(); 
