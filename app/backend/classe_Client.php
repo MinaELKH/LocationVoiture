@@ -1,6 +1,5 @@
-
-
 <?php 
+require_once ('classe_User.php') ; 
 // Il y a une relation qui lie l'utilisateur au client. C'est une relation d'héritage. Normalement, nous devons 
 // créer une classe Client qui hérite de User (qui utlise la methode standard) , mais vu que nous avons travaillé avec DatabaseManager, 
 // nous n'avons pas implémenté l'héritage.
@@ -39,14 +38,11 @@
         public function setIdRole(int $id_role): void {
             $this->id_role = $id_role;
         }
-        public function setArchive(int $archive): void {
-            $this->archive = $archive;
-        }
-
-        public function supprimerClient(): bool
+      
+        public function getAttributById(array $attributs = []): ?stdClass // il prend en param un array des colonne a affichées
         {
-            return $this->dbManager->delete('users', 'id_user',$this->id_user);
+            $params = ['id_user' => $this->id_user];
+            return $this->dbManager->selectAttributById('users',$attributs , $params );
         }
-    
  
 }

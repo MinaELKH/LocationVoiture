@@ -44,7 +44,7 @@ function afficher(){
 
     if ($activites) {
         echo "<div class='listeTable'><table border='1'><thead>";
-        echo "<tr><th>ID</th><th>Activité</th><th>Date de réservation</th><th>Statut</th><th>Action</th></tr></thead><tbody>";
+        echo "<tr><th>ID</th><th>véhicule</th><th>Date de réservation</th><th>Statut</th><th>Action</th></tr></thead><tbody>";
 
         $reservation = Reservation::affichertt($db);
 
@@ -53,18 +53,7 @@ function afficher(){
             echo "<tr>
                     <td>{$objet->id_reservation}</td>
                     <td>
-                        <form action='' method='post'>
-                            <input type='hidden' name='id_reservation' value='{$objet->id_reservation}'>
-                            <select name='changeActivity' onchange='this.form.submit()' class='w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm'>
-                                <option value=''>Sélectionnez une activité</option>";
-
-                             foreach ($activites as $activite) {
-                             $selected = ($objet->titre == $activite->titre) ? 'selected' : '';
-                             echo "<option value='{$activite->id_activite}' $selected>{$activite->titre}</option>";
-            }
-
-            echo "</select>
-                        </form>
+                       {$objet->id_vehicule}
                     </td>
                     <td>{$objet->date_reservation}</td>
                     <td>{$objet->statut}</td>

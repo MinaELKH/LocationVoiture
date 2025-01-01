@@ -67,9 +67,11 @@ FOREIGN key(id_user) REFERENCES users(id_user)  ,
 FOREIGN key(id_agence) REFERENCES agence(id_agence)  
 );
  alter table vehicule
-change  disponibilte disponibilite  enum('1' , '0') DEFAULT '1' 
+change  disponibilte disponibilite  enum('1' , '0') DEFAULT '1' ; 
 alter table reservation 
-add COLUMN STATUT enum ('annulée' ,'confirmée','en attente') DEFAULT 'en attente' ; 
+add COLUMN statut enum ('annulée' ,'confirmée','en attente') DEFAULT 'en attente' ; 
+alter table reservation 
+add COLUMN archive enum('0' , '1') DEFAULT'1' ; 
 
 
 CREATE table avis(

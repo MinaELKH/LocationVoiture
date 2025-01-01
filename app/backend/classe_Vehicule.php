@@ -85,4 +85,9 @@ class Vehicule
     {
         return $this->dbManager->delete('vehicule', 'id_vehicule',$this->id_vehicule);
     }
+    public function getAttributById(array $attributs = []): ?stdClass // il prend en param un array des colonne a affichées
+    {
+        $params = ['id_vehicule' => $this->id_vehicule];
+        return $this->dbManager->selectAttributById('vehicule',$attributs , $params );
+    }
 }

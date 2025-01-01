@@ -1,82 +1,98 @@
 <?php
-ob_start(); 
+ob_start();
 // session_start() ;
-//     if($_SESSION['id_role']!=1 ||  $_SESSION['id_role'] !=3){ //client 
-//       header("location: erreur.php") ;
-//       exit ;
-//     }
-//     else if($_SESSION['id_role'] ==2 ||  $_SESSION['id_role'] ==1 ){ //admin ou superAdmin
-//        $id_user = $_SESSION['id'] ; 
-//     }
+// if ($_SESSION['id_role'] != 1 || $_SESSION['id_role'] != 3) { // client
+//     header("location: erreur.php");
+//     exit;
+// } else if ($_SESSION['id_role'] == 2 || $_SESSION['id_role'] == 1) { // admin ou superAdmin
+//     $id_user = $_SESSION['id'];
+// }
 
-
-$title = "Gestion des reservations";
-require "../backend/classe_Vehicule.php";
-require "../backend/classe_Categorie.php";
-require "../backend/classe_Reservation.php"; 
+$title = "Gestion des réservations";
+require __DIR__ . "/../backend/classe_Vehicule.php";
+require __DIR__ . "/../backend/classe_Categorie.php";
+require __DIR__ . "/../backend/classe_Reservation.php";
+require __DIR__ . "/../backend/classe_client.php";
 require_once __DIR__ . '/../../includ/DB.php';
-require_once __DIR__ . '/../../includ/DatabaseManager.php'; 
+require_once __DIR__ . '/../../includ/DatabaseManager.php';
 
-if(isset($_POST["changeStatut"])){
-    $id_reservation = intval($_POST["id_reservation"]);
-    $newStatut = $_POST["changeStatut"];
-    $reservation = new Reservation() ; 
-    $resutlt = $reservation->changeStatut($id_reservation , $newStatut);
+$dbManager = new DatabaseManager(Database::getInstance()->getConnection());
 
-}
 if (isset($_POST["archive"])) {
     $id_reservation = intval($_POST["archive"]);
-    $reservation = new Reservation();
-    $reservation->archiveRes($id_reservation);
+    $reservation = new Reservation($dbManager , $id_reservation);
+    $reservation->archiveReservation();
 }
 
+if (isset($_POST["changeStatut"])) {
+    $id_reservation = intval($_POST["id_reservation"]);
+    $newStatut = $_POST["changeStatut"];
+    $reservation = new Reservation($dbManager ,$id_reservation );
+    $result = $reservation->changeStatut( $newStatut);
+}
 
+if (isset($_POST["changeVehicule"])) {
+    $id_reservation = intval($_POST["id_reservation"]);
+    $newIdVehicule = $_POST["changeVehicule"];
+    $reservation = new Reservation($dbManager);
+    $result = $reservation->changeVehicule($id_reservation, $newIdVehicule);
+}
 
-afficher();
-function afficher(){
-  
-    $conn= Database :: getInstance() ; 
-    $db = $conn->getConnection() ; 
-    $result = Reservation::affichertt( $db); 
+afficher($dbManager);
 
-    if($result){
-        echo " <div class='listeTable' ><table border='1'><thead>";
-        echo "<tr><th>ID</th><th>Client</th><th>Activite</th><th>Date de reservation</th><th>Statut</th><th>Action</th></tr></thead><tbody>";
-        foreach ($result as $objet){
-            $id= $objet->id_reservation; 
+function afficher($dbManager)
+{$reservations = (new Reservation($dbManager))->getAll();
+    if (!empty($reservations)) {
+        echo "<div class='listeTable'><table border='1'><thead>";
+        echo "<tr>
+                    <th>Réference</th>
+                    <th>Véhicule</th>
+                    <th>Date de réservation</th>
+                    <th>Date début</th>
+                    <th>Date fin</th>
+                    <th>Statut</th>
+                    <th>Action</th>
+               </tr></thead><tbody>";
+
+        foreach ($reservations as $objet) {
+            $id = $objet->id_reservation;
+            $veh = (new vehicule($dbManager ,$objet->id_vehicule))-> getAttributById(['nom' , 'marque' , 'model']);
+            $client = (new client($dbManager ,$objet->id_user))-> getAttributById(['nom']);
             echo "<tr>
-                <td>{$objet->id_reservation}</td>
-                <td>{$objet->nom} {$objet->prenom}</td>       
-                <td>{$objet->titre}</td>
+                <td>{$objet->id_reservation}</td>  
+                <td> $veh->nom <br/> marq:$veh->marque   model:$veh->model </td>
+                 <td>{$client->nom}</td>
                 <td>{$objet->date_reservation}</td>
-                <td>
+                <td>{$objet->date_debut}</td>
+                <td>{$objet->date_fin}</td>
+
+             <td>
+            <form action='' method='post'>
+                <input type='hidden' name='id_reservation' value='{$objet->id_reservation}'>
+                <select name='changeStatut' onchange='this.form.submit()' class='w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm'>
+                    <option value='en attente'" . ($objet->statut === 'en attente' ? ' selected' : '') . ">En attente</option>
+                    <option value='confirmée'" . ($objet->statut === 'confirmée' ? ' selected' : '') . ">Confirmée</option>
+                    <option value='annulée'" . ($objet->statut === 'annulée' ? ' selected' : '') . ">Annulée</option>
+                </select>
+            </form>
+           </td>
+           
+                <td class='flex align-center justify-center'>
                     <form action='' method='post'>
                         <input type='hidden' name='id_reservation' value='{$objet->id_reservation}'>
-                        <select name='changeStatut' onchange ='this.form.submit()' class='w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm'>
-                            <option value='enAttente' " . ($objet->statut == 'enAttente' ? 'selected' : '') . ">En attente</option>
-                            <option value='confirmee' " . ($objet->statut == 'Confirmée' ? 'selected' : '') . ">Confirmée</option>
-                            <option value='annulee' " . ($objet->statut == 'Annulée' ? 'selected' : '') . ">Annulée</option>
-                        </select>
-                    </form>
-                </td>
-
-                <td class='flex align-center justify-center'>
-                    <form   action='' method='post'>
-                    <input type='hidden' name='id_reservation' value='{$objet->id_reservation}'>
-                        <div class='flex'>
-                            <button type='submit' name='archive' value='$id'><span class='text-red-400 cursor-pointer material-symbols-outlined'>folder</span></button>
-                        </div>
+                        <button type='submit' name='archive' value='$id'>
+                            <span class='text-red-400 cursor-pointer material-symbols-outlined'>archive</span>
+                        </button>
                     </form>
                 </td>
             </tr>";
         }
         echo "</tbody></table></div>";
-} else {
-    echo "<p>Aucun client trouvé.</p>";
+    } else {
+        echo "<p>Aucune réservation trouvée.</p>";
+    }
 }
-}
-?>  
-<?php
-$content = ob_get_clean(); 
-include 'layout.php'; 
+
+$content = ob_get_clean();
+include 'layout.php';
 ?>

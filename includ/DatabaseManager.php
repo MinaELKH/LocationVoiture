@@ -63,7 +63,7 @@ class DatabaseManager
    //  print_r($values) ;
     $stmt = $this->connection->prepare($query);
     if ($stmt->execute($values)){
-           echo 'modif ok' ;
+         //  echo 'modif ok' ;
             return true ;
     } else {
         echo 'modif non' ;
@@ -75,35 +75,22 @@ class DatabaseManager
 
     public function selectAll(string $table, array $params = []): array
 {
-    // Début de la requête de base
     $query = "SELECT * FROM $table";
-
-    // Ajouter des conditions si des paramètres sont fournis
     if (!empty($params)) {
         $conditions = [];
-        foreach ($params as $param => $condition) {
-            // Assurez-vous que les valeurs sont sécurisées, ici on suppose que ce sont des noms de colonnes et des valeurs sécurisées
-            $conditions[] = "$param = :$param";  // Utilisation de placeholders pour éviter les injections SQL
+        foreach ($params as $param => $condition) {   
+            $conditions[] = "$param = :$param";  
         }
         $cond =  implode(' AND ', $conditions);
-        // Joindre toutes les conditions par "AND"
         $query .= " WHERE " . $cond  ; 
     }
-
-    // Préparer et exécuter la requête
     $stmt = $this->connection->prepare($query);
-    
-    // Lier les paramètres sécurisés
     if (!empty($params)) {
         foreach ($params as $param => $condition) {
-            // Utilisation de PDO::PARAM_STR pour lier chaque paramètre, vous pouvez ajuster le type selon vos besoins
             $stmt->bindValue(":$param", $condition, PDO::PARAM_STR);
         }
     }
-
-    // Exécuter la requête
    if ($stmt->execute()){
- // Retourner les résultats sous forme de tableau associatif
  return $stmt->fetchAll(PDO::FETCH_OBJ);
    } else {
       return false ; 
@@ -113,39 +100,36 @@ class DatabaseManager
 }
 
 
-
-public function selectById(string $table, array $params = []): ?stdClass
+// select attribut1 , attribut2 .... from ...
+public function selectAttributById(string $table,array $attributs = [] ,  array $params = []) : ?stdClass
 {
-    // Début de la requête de base
-    $query = "SELECT * FROM $table";
-
-    // Ajouter des conditions si des paramètres sont fournis
-    if (!empty($params)) {
-        $conditions = [];
-        foreach ($params as $param => $condition) {
-            // Assurez-vous que les valeurs sont sécurisées, ici on suppose que ce sont des noms de colonnes et des valeurs sécurisées
-            $conditions[] = "$param = :$param";  // Utilisation de placeholders pour éviter les injections SQL
-        }
-        // Joindre toutes les conditions par "AND"
-        $query .= " WHERE " . implode(' AND ', $conditions);
+    if (!empty($attributs)) {
+            $column=  implode(' , ', $attributs);
+            $query = "SELECT $column FROM $table";
+    }
+    else {
+             $query = "SELECT * FROM $table";
     }
 
-    // Préparer et exécuter la requête
+
+    if (!empty($params)) {
+        $conditions = [];
+        foreach ($params as $param => $condition) {  
+            $conditions[] = "$param = :$param";  
+            $query .= " WHERE " . implode(' AND ', $conditions);
+       }
+    }
     $stmt = $this->connection->prepare($query);
-    
-    // Lier les paramètres sécurisés
     if (!empty($params)) {
         foreach ($params as $param => $condition) {
-            // Utilisation de PDO::PARAM_STR pour lier chaque paramètre, vous pouvez ajuster le type selon vos besoins
             $stmt->bindValue(":$param", $condition, PDO::PARAM_STR);
         }
     }
-
-    // Exécuter la requête
+   
    if ($stmt->execute()){
     $result = $stmt->fetch(PDO::FETCH_OBJ); 
-   
- // Retourner les résultats sous forme de tableau associatif
+    // var_dump($result);
+    // exit ; 
         return $result;
    } else {
       return false ; 
@@ -153,9 +137,7 @@ public function selectById(string $table, array $params = []): ?stdClass
 
    
 }
-
-
-    public function getLastInsertId(): int
+public function getLastInsertId(): int
 {
     return (int)$this->connection->lastInsertId();
 }
