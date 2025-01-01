@@ -42,11 +42,15 @@ if ($_SESSION['id_role'] == 1) {
                 class="text-orange-400 flex justify-center items-center m-2 w-2/3 border-2 cursor-pointer border-orange-400 rounded-lg hover:scale-[1.1] hover:text-gray-800">
                 <span class="material-symbols-outlined cursor-pointer lg:text-4xl">Home</span> DashBorad
             </a>
+                  <a href="categorie.php"
+                class="text-orange-400 flex items-center justify-center m-2 w-2/3 border-2 cursor-pointer border-orange-400 rounded-lg hover:scale-[1.1] hover:text-gray-800">
+                <span class="material-symbols-outlined cursor-pointer lg:text-4xl">kayaking</span> categorie
+            </a>
             <a href="vehicule.php"
                 class="text-orange-400 flex items-center justify-center m-2 w-2/3 border-2 cursor-pointer border-orange-400 rounded-lg hover:scale-[1.1] hover:text-gray-800">
-                <span class="material-symbols-outlined cursor-pointer lg:text-4xl">kayaking</span> Activité
+                <span class="material-symbols-outlined cursor-pointer lg:text-4xl">kayaking</span> Véhicule
             </a>
-            <a href="reservationCategorie.php"
+            <a href="reservation.php"
                 class="text-orange-400 flex items-center m-2 justify-center w-2/3 border-2 cursor-pointer border-orange-400 rounded-lg hover:scale-[1.1] hover:text-gray-800">
                 <span class="material-symbols-outlined cursor-pointer lg:text-4xl">airplane_ticket</span> Réservation
             </a>';

@@ -1,18 +1,21 @@
 <?php
 ob_start(); 
-session_start() ;
-    if($_SESSION['id_role']!=1 ||  $_SESSION['id_role'] !=3){ //client 
-      header("location: erreur.php") ;
-      exit ;
-    }
-    else if($_SESSION['id_role'] ==2 ||  $_SESSION['id_role'] ==1 ){ //admin ou superAdmin
-       $id_user = $_SESSION['id'] ; 
-    }
+// session_start() ;
+//     if($_SESSION['id_role']!=1 ||  $_SESSION['id_role'] !=3){ //client 
+//       header("location: erreur.php") ;
+//       exit ;
+//     }
+//     else if($_SESSION['id_role'] ==2 ||  $_SESSION['id_role'] ==1 ){ //admin ou superAdmin
+//        $id_user = $_SESSION['id'] ; 
+//     }
 
 
 $title = "Gestion des reservations";
+require "../backend/classe_Vehicule.php";
+require "../backend/classe_Categorie.php";
+require "../backend/classe_Reservation.php"; 
 require_once __DIR__ . '/../../includ/DB.php';
-require_once __DIR__ . '/../backend/classe_reservation.php'; 
+require_once __DIR__ . '/../../includ/DatabaseManager.php'; 
 
 if(isset($_POST["changeStatut"])){
     $id_reservation = intval($_POST["id_reservation"]);
