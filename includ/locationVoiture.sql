@@ -151,3 +151,65 @@ VALUES
 (8, 12, 8, '2024-12-23 17:35:00', '2025-02-05', '2025-02-15', 'confirmée'),
 (9, 15, 9, '2024-12-22 12:25:00', '2025-02-10', '2025-02-20', 'en attente'),
 (10, 15, 10, '2024-12-21 10:40:00', '2025-02-15', '2025-02-25', 'confirmée');
+
+-- create table disponibilite (
+-- id_vehicule int(11) ,
+-- date_debut date() , 
+-- date_fin date()
+-- PRIMARY key (id_vehicule ,date_debut , date_fin )
+-- )
+
+
+## requette verfier la disponiblite 
+INSERT INTO reservation (id_vehicule, id_user, id_agence, date_reservation, date_debut, date_fin, STATUT) VALUES
+(1, 11, '2024-12-30 10:00:00', '2025-01-03', '2025-01-10', 'confirmée'),
+(1, 12,  '2024-12-29 14:30:00', '2025-01-06', '2025-01-15', 'confirmée'),
+(1, 13, '2024-12-28 09:45:00', '2025-01-16', '2025-01-31', 'confirmée'),
+(1, 13, '2024-12-28 09:45:00', '2025-02-02', '2025-02-20', 'confirmée') ;
+
+## requete de verfification de disponiblite 
+SELECT 
+  (SELECT COUNT() 
+   FROM reservation 
+   WHERE '2025-01-11' BETWEEN date_debut AND date_fin 
+     AND id_vehicule = 1)
++
+  (SELECT COUNT() 
+   FROM reservation 
+   WHERE '2025-01-14' BETWEEN date_debut AND date_fin 
+     AND id_vehicule = 1) 
+AS total;
+
+
+
+
+// $query = "SELECT * 
+//             FROM reservation 
+//             WHERE :date_debut BETWEEN date_debut AND date_fin 
+//                 AND id_vehicule = :id
+//         union
+//            SELECT *
+//             FROM reservation 
+//             WHERE :date_fin  BETWEEN date_debut AND date_fin 
+//                 AND id_vehicule = :id
+//             ";
+
+
+
+
+-- les views
+-- pour afficher les reservations en detailles 
+create view ListeResevation as
+select r.*  , u.nom as nom ,  c.nom  ,v.nom , v.marque , v.model 
+from reservation r
+inner join users  u  on u.id_user = r.id_user
+INNER JOIN vehicule  v on  v.id_vehicule = r.id_vehicule
+inner JOIN categorie c on   c.id_categorie = v.id_categorie 
+
+
+-- pour afficher la liste des vehicule 
+
+create view ListeVehicule as
+select  c.nom as nom_categorie ,v.*
+from  vehicule  v 
+inner JOIN categorie c on   c.id_categorie = v.id_categorie 

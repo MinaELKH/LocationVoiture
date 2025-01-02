@@ -1,20 +1,17 @@
 
 
 
-function openModal(modalId) {
+  function openModal(modalId) {
     document.getElementById(modalId).classList.remove('hidden');
   }
   
-
   function openModal(modalId , id) {
+    alert(id) ;
     document.getElementById(modalId).classList.remove('hidden');
     document.getElementById("id_ref").value = id ; 
-  
   }
-  
-  
-  function closeModal(modalId) {
 
+  function closeModal(modalId) {
     document.getElementById(modalId).classList.add('hidden');
         // lors de fermture de  modal  s il y a des param dans l url on doit revenir a l url sans param
     const baseUrl = window.location.origin + window.location.pathname;
@@ -22,14 +19,10 @@ function openModal(modalId) {
     window.history.replaceState(null, null, baseUrl);
     // cette methode permet de remplacer l url sans rechareg la page
   }
-
-
   if(document.body.id == "pageHome"){
-    const menuToggle = document.getElementById('menuToggle');
-    const dropdownMenu = document.getElementById('dropdownMenu');
-  
-
-   menuToggle.addEventListener('click', (event) => {
+      const menuToggle = document.getElementById('menuToggle');
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      menuToggle.addEventListener('click', (event) => {
       event.preventDefault(); // 
       dropdownMenu.classList.toggle('hidden'); 
     });

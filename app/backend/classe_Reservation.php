@@ -106,4 +106,52 @@ class Reservation
         $params = ['id_reservation' => $id];
         return $this->dbManager->selectAttributById('reservation',$attributs , $params );
     }
+
+
+    public function disponibilite($date_debut, $date_fin) {
+       
+        require_once __DIR__ . '/../../includ/db.php';
+        $db = Database::getInstance();
+        $connection = $db->getConnection();
+    
+        $id_vehicule = $this->id_vehicule;
+    
+    
+        $query = "
+            SELECT 
+            (SELECT COUNT(*) 
+             FROM reservation 
+             WHERE :date_debut BETWEEN date_debut AND date_fin 
+               AND id_vehicule = :id_vehicule)
+            +
+            (SELECT COUNT(*) 
+             FROM reservation 
+             WHERE :date_fin BETWEEN date_debut AND date_fin 
+               AND id_vehicule = :id_vehicule) 
+            AS total;
+        ";
+    
+        $stmt = $connection->prepare($query);
+
+        $stmt->bindValue(':date_debut', $date_debut, PDO::PARAM_STR);
+        $stmt->bindValue(':date_fin', $date_fin, PDO::PARAM_STR);
+        $stmt->bindValue(':id_vehicule', $id_vehicule, PDO::PARAM_INT);
+        
+        $stmt->execute();
+    
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($result && isset($result['total'])) {
+            return $result['total']; 
+        }
+    
+   
+        return 0;
+    }
+    
 }
+require_once __DIR__ . '/../../includ/DatabaseManager.php';
+
+$dbManager = new DatabaseManager();
+$reservation = new Reservation($dbManager, 0 , 1);
+$result = $reservation->disponibilite("2025-01-04", "2025-01-14");

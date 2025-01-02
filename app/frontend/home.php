@@ -16,6 +16,7 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Design of the Week Template 12 - Pinegrow Web Editor</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="js/main.js"  defer></script>
         <link href="PrimeDrive_TW/PrimeDrive_TW/tailwind_theme/tailwind.css" rel="stylesheet" type="text/css">
         <script>/* Pinegrow Interactions, do not remove */ (function(){try{if(!document.documentElement.hasAttribute('data-pg-ia-disabled')) { window.pgia_small_mq=typeof pgia_small_mq=='string'?pgia_small_mq:'(max-width:767px)';window.pgia_large_mq=typeof pgia_large_mq=='string'?pgia_large_mq:'(min-width:768px)';var style = document.createElement('style');var pgcss='html:not(.pg-ia-no-preview) [data-pg-ia-hide=""] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show=""] {opacity:1;visibility:visible;display:block;}';if(document.documentElement.hasAttribute('data-pg-id') && document.documentElement.hasAttribute('data-pg-mobile')) {pgia_small_mq='(min-width:0)';pgia_large_mq='(min-width:99999px)'} pgcss+='@media ' + pgia_small_mq + '{ html:not(.pg-ia-no-preview) [data-pg-ia-hide="mobile"] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show="mobile"] {opacity:1;visibility:visible;display:block;}}';pgcss+='@media ' + pgia_large_mq + '{html:not(.pg-ia-no-preview) [data-pg-ia-hide="desktop"] {opacity:0;visibility:hidden;}html:not(.pg-ia-no-preview) [data-pg-ia-show="desktop"] {opacity:1;visibility:visible;display:block;}}';style.innerHTML=pgcss;document.querySelector('head').appendChild(style);}}catch(e){console&&console.log(e);}})()</script>
     </head>
@@ -77,12 +78,7 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
                 </div>
             </section>
 
-            <?php 
-                $dbManager = new DatabaseManager();
-                $newVehicule = new Vehicule($dbManager);
-                $result = $newVehicule->getAll(); 
-               
-            ?>
+          
          <section class="py-24"> 
                 <div class="container mx-auto px-4 space-y-12">
                     <div class="flex flex-wrap items-center">
@@ -152,6 +148,12 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
                     </div>
                     <div class="-mx-3 flex flex-wrap justify-center mb-12"> 
                     <!-- debut card -->
+
+                    <?php 
+                            $dbManager = new DatabaseManager();
+                            $newVehicule = new Vehicule($dbManager);
+                            $result = $newVehicule->getAll(); 
+                        ?>
                     <?php  
 foreach($result as $objet) :
     echo   '<div class="p-3 w-full md:w-6/12 lg:w-4/12">
@@ -261,7 +263,11 @@ foreach($result as $objet) :
                 </div>
                 </div>
                 <div>
-              <button href="#" class="bg-gray-300 hover:bg-primary-600 inline-block px-6 py-2 text-gray-700">Louer</button>
+                <button 
+                class="btn_louer bg-gray-300 hover:bg-primary-600 inline-block px-6 py-2 text-gray-700" 
+                 value='.$objet->id_vehicule.'  onclick="openModal(\'modal\' , '.$objet->id_vehicule.' )">
+                Louer
+               </button>
                 </div>
               
             </div>
@@ -274,14 +280,7 @@ foreach($result as $objet) :
 
 endforeach; 
 ?>
-
-               
-               
-               
-               
-               
-               
-                  </div>                 
+            </div>                 
             </section>
             <section class="py-24"> 
                 <div class="container mx-auto px-4"> 
@@ -496,4 +495,17 @@ endforeach;
             </div>             
         </footer>
     </body>
+
+
+
+                        <!-- formulaire de reservation -->
+
+                        <?php require_once ('formReservation.php') ; ?>
+
+
+
+
+
+
+
 </html>
