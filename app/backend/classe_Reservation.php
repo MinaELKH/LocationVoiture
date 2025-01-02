@@ -148,10 +148,71 @@ class Reservation
    
         return 0;
     }
-    
-}
-require_once __DIR__ . '/../../includ/DatabaseManager.php';
 
-$dbManager = new DatabaseManager();
-$reservation = new Reservation($dbManager, 0 , 1);
-$result = $reservation->disponibilite("2025-01-04", "2025-01-14");
+
+    public function disponibiliteWithProcedureSQL($date_debut, $date_fin) {  
+        require_once __DIR__ . '/../../includ/db.php';
+        $db = Database::getInstance();
+        $connection = $db->getConnection();
+    
+        // Définir la variable utilisateur @v_etat_request
+        $connection->query("SET @v_etat_request = NULL;");
+    
+        // Requête pour appeler la procédure
+        $query = "CALL AjouterReservation(
+            :id_vehicule,
+            :id_user,
+            :date_reservation,
+            :date_debut,
+            :date_fin,
+            :statut,
+            @v_etat_request
+        );";
+    
+        $id_vehicule = $this->id_vehicule;
+        $id_user = $this->id_user;
+        $date_reservation = date("Y-m-d H:i:s");
+        $statut = 'en attente';
+    
+        $stmt = $connection->prepare($query);
+        $stmt->bindValue(':id_vehicule', $id_vehicule, PDO::PARAM_INT);
+        $stmt->bindValue(':id_user', $id_user, PDO::PARAM_INT);
+        $stmt->bindValue(':date_reservation', $date_reservation, PDO::PARAM_STR);
+        $stmt->bindValue(':date_debut', $date_debut, PDO::PARAM_STR);
+        $stmt->bindValue(':date_fin', $date_fin, PDO::PARAM_STR);     
+        $stmt->bindValue(':statut', $statut, PDO::PARAM_STR);
+    
+        try {
+            $result = $stmt->execute(); // Exécution de la procédure stockée
+    
+            if ($result) {
+                // Récupérer la valeur de @v_etat_request
+                $statusQuery = "SELECT @v_etat_request AS reponse_disponiblite;";
+                $statusStmt = $connection->query($statusQuery);
+                $res_disponiblite = $statusStmt->fetch(PDO::FETCH_ASSOC);
+              
+                if ($res_disponiblite) {
+                //    echo "État de disponibilité : " . $res_disponiblite['reponse_disponiblite'];
+                    return $res_disponiblite['reponse_disponiblite'];
+                }
+            }
+        } catch (PDOException $e) {
+            echo "Erreur lors de l'exécution de la procédure : " . $e->getMessage();
+            return false;
+        }
+    }
+      
+}
+
+
+// require_once __DIR__ . '/../../includ/DatabaseManager.php';
+
+// $dbManager = new DatabaseManager();
+// $reservation = new Reservation($dbManager, 0 , 3 , 15);
+// $result = $reservation->disponibiliteWithProcedureSQL("2025-05-15", "2025-05-20", 250);
+
+// if ($result) {
+//     echo "Résultat : " . $result;
+// } else {
+//     echo "Erreur ou véhicule non disponible.";
+// }

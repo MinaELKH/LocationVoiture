@@ -15,8 +15,8 @@
 
       <h2 class="text-2xl font-bold mb-6">Réservation de voiture</h2>
 
-      <form id="reservation-form">
-        <input type="hidden" id="id_ref" value="">
+      <form id="reservation-form" method="post" action="">
+        <input type="hidden" id="id_ref" name="id_ref" value="">
         <div class="mb-4">
           <label for="date_debut" class="block font-medium mb-2">Date de prise en charge :</label>
           <input type="date" id="date_debut" name="date_debut" class="border rounded-lg px-4 py-2 w-full" required>
@@ -29,7 +29,7 @@
           <label for="location" class="block font-medium mb-2">Lieu de prise en charge :</label>
           <input type="text" id="location" name="location" placeholder="Ville, aéroport, etc." class="border rounded-lg px-4 py-2 w-full" required>
         </div>
-        <button type="submit" name="louerDisponible" class="bg-black text-white rounded-lg px-6 py-3 w-full hover:bg-gray-800">Vérifier la disponibilité</button>
+        <button type="submit" name="reserver" class="bg-black text-white rounded-lg px-6 py-3 w-full hover:bg-gray-800">Réserver</button>
       </form>
 
       <div id="prix" class="mt-6">
@@ -47,23 +47,45 @@
 
 
   <?php
-  if (isset($_POST["louerDisponible"]) ){
+  if (isset($_POST["reserver"]) ){
       $date_debut=$_POST['date_debut'] ;
       $date_fin=$_POST['date_fin'] ;
-      $id = $_POST['ref_id'] ; 
-      
-      $newVehicule = new Vehicule($dbmanager  , $id) ;
-      $disponiblite = $newVehicule->disponibilite( $date_debut ,   $date_fin  ) ; 
+      $id_vehicule = $_POST['id_ref'] ; 
+      $dbManager = new DatabaseManager();
+      $reservation = new Reservation($dbManager, 0 , $id_vehicule , 15);
+      $result = $reservation->disponibiliteWithProcedureSQL($date_debut, $date_fin);
 
-
-
-
-
-
+      if $result="disponible"
+      {
+        $_SESSION['msgSweetAlert'] = [
+          'title' =>'success'  ,
+          'text' => 'reservation effectue avec succes , veuillez attendre la confirmation de votre réservation ',
+          'status'=> 'success'
+          ]  ;
+          sweetAlert('home.php'); 
+          exit; 
+      }
+      else if  $result="non_disponible"
+      {
+              $_SESSION['msgSweetAlert']= [
+                'title' =>'Avertissment'  ,
+                'text' => 'Veuillez changer la date de reservation ou choisir d autre Véhicule',
+                'status' => 'error'
+          ] ;
+                sweetAlert('home.php'); 
+                exit; 
+        
+      }
+      else
+      {
+        $_SESSION['msgSweetAlert']= [
+          'title' =>'Avertissment'  ,
+          'text' => 'Nous sommes Désole , la réservation est échoué',
+          'status' => 'error'
+         ] ;
+          sweetAlert('home.php'); 
+          exit;   
+      }
   }
-  
-  
-  
-  
-  
+
   ?>

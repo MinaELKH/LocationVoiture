@@ -72,6 +72,9 @@ alter table reservation
 add COLUMN statut enum ('annulée' ,'confirmée','en attente') DEFAULT 'en attente' ; 
 alter table reservation 
 add COLUMN archive enum('0' , '1') DEFAULT'1' ; 
+ALTER TABLE reservation
+ADD COLUMN prix DECIMAL(10, 2) NOT NULL AFTER date_fin; 
+
 
 
 CREATE table avis(
@@ -213,3 +216,82 @@ create view ListeVehicule as
 select  c.nom as nom_categorie ,v.*
 from  vehicule  v 
 inner JOIN categorie c on   c.id_categorie = v.id_categorie 
+
+
+-- procedure stockee 
+--DROP PROCEDURE IF EXISTS  AjouterReservation ;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AjouterReservation`(
+    IN v_id_vehicule INT,
+    IN v_id_user INT,
+    IN v_date_reservation DATETIME,
+    IN v_date_debut DATE,
+    IN v_date_fin DATE,
+    IN v_statut VARCHAR(50),
+    OUT v_etat_request VARCHAR(50)
+)
+BEGIN
+    DECLARE vehicule_disponible INT;
+    DECLARE v_total_prix DECIMAL(10, 2);
+
+    -- Vérifier la disponibilité du véhicule
+    SELECT 
+        (SELECT COUNT(*) 
+         FROM reservation
+         WHERE v_date_debut BETWEEN date_debut AND date_fin 
+           AND id_vehicule = v_id_vehicule)
+        +
+        (SELECT COUNT(*) 
+         FROM reservation
+         WHERE v_date_fin BETWEEN date_debut AND date_fin 
+           AND id_vehicule = v_id_vehicule)
+        +
+        (SELECT COUNT(*) 
+         FROM reservation
+         WHERE date_debut BETWEEN v_date_debut AND v_date_fin 
+           AND id_vehicule = v_id_vehicule)
+        INTO vehicule_disponible;
+
+    -- Si le véhicule est disponible, ajouter la réservation
+    IF vehicule_disponible = 0 THEN
+        -- Calcul du prix total
+        SET v_total_prix = DATEDIFF(v_date_fin, v_date_debut) * (select prix from vehicule where id_vehiclue = v_id_vehicule);
+
+        -- Insérer la réservation
+        INSERT INTO reservation (
+            id_vehicule, 
+            id_user, 
+            date_reservation, 
+            date_debut, 
+            date_fin, 
+            prix, 
+            statut
+        ) 
+        VALUES (
+            v_id_vehicule, 
+            v_id_user, 
+            v_date_reservation, 
+            v_date_debut, 
+            v_date_fin, 
+            v_total_prix, 
+            v_statut
+        );
+         set  v_etat_request = "disponible" ; 
+      ELSE 
+          set  v_etat_request = "non_disponible" ; 
+    END IF;
+END$$
+DELIMITER ;
+
+--callprocedure 
+CALL AjouterReservation(
+    1, -- id_vehicule
+    5, -- id_user
+    '2025-01-02 10:30:00', -- date_reservation
+    '2025-01-05', -- date_debut
+    '2025-01-10', -- date_fin
+    'En attente' -- statut
+);
+
+

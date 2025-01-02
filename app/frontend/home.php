@@ -1,6 +1,7 @@
 <?php
 ob_start();
 session_start();
+require("../../sweetAlert/sweetAlert.php"); 
 require_once __DIR__ . "/../backend/classe_Vehicule.php";
 require_once __DIR__ . "/../backend/classe_Categorie.php";
 require_once __DIR__ . "/../backend/classe_Reservation.php";
@@ -265,7 +266,7 @@ foreach($result as $objet) :
                 <div>
                 <button 
                 class="btn_louer bg-gray-300 hover:bg-primary-600 inline-block px-6 py-2 text-gray-700" 
-                 value='.$objet->id_vehicule.'  onclick="openModal(\'modal\' , '.$objet->id_vehicule.' )">
+                 value='.$objet->prix.'  onclick="openModal(\'modal\' , '.$objet->id_vehicule.' )">
                 Louer
                </button>
                 </div>
