@@ -1,7 +1,9 @@
 <?php
 ob_start();
 session_start();
-require_once 'User.php';?>
+require_once 'User.php';
+require("../../sweetAlert/sweetAlert.php"); 
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,87 +23,86 @@ require_once 'User.php';?>
         </a> 
 
     </div>
-    <div class="w-full p-5 sm:p-10 rounded-md">
-      <h1 class="text-center text-xl sm:text-3xl font-semibold text-white">
-        Inscrivez-vous pour un compte gratuit
-      </h1>
-      <div class="w-full mt-8">
-        <form action="" method="post">
-          <div class="mx-auto max-w-xs sm:max-w-md md:max-w-lg flex flex-col gap-4">
-            <div>
-              <label for="nom" class="text-white">Nom :</label>
-              <input name="nom" class="w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline" type="text" placeholder="Votre nom" required />
-            </div>
-            <div>
-              <label for="prenom" class="text-white">Prénom :</label>
-              <input name="prenom" class="w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline" type="text" placeholder="Prénom" />
-            </div>
-            <div>
-              <label for="telephone" class="text-white">Telephone :</label>
-              <input name="telephone" class="w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline" type="text" placeholder="Votre telephone" required />
-            </div>
-            <div>
-              <label for="adresse" class="text-white">Adresse:</label>
-              <input name="adresse" class="w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline" type="textl" placeholder="Votre adresse " required />
-            </div>
-            <div>
-              <label for="email" class="text-white">Email :</label>
-              <input name="email" class="w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline" type="email" placeholder="Votre adresse email" required />
-            </div>
-
-            <div>
-              <label for="password" class="text-white">Mot de passe :</label>
-              <input name="password" class="w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline" type="password" placeholder="Votre mot de passe" required />
-            </div>
-            <div>
-              <label for="password1" class="text-white">Confirmez le mot de passe :</label>
-              <input name="password1" class="w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 focus:outline" type="password" placeholder="Confirmez le mot de passe" required />
-            </div>
-            <button type="submit" name="inscrir" class="mt-5 tracking-wide font-semibold bg-[#FEA116] text-gray-100 w-full py-4 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
-              <svg class="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-                <circle cx="8.5" cy="7" r="4" />
-                <path d="M20 8v6M23 11h-6" />
-              </svg>
-              <span class="ml-3">S'inscrire</span>
-            </button>
-            <p class="mt-6 text-xs text-gray-600 text-center">
-              <a href="login.php">
-                <span class="text-[#FEA116] font-semibold">Se connecter</span>
-              </a>
-            </p>
-          </div>
-        </form>
+   
+    <div class="w-full p-3 sm:p-6 rounded-md">
+  <h1 class="text-center text-lg sm:text-xl font-semibold text-white">
+    Inscrivez-vous pour un compte gratuit
+  </h1>
+  <div class="w-full mt-4">
+    <form action="" method="post">
+      <div class="mx-auto max-w-sm flex flex-col gap-3">
+        <div class="flex items-center justify-between gap-3">
+          <label for="nom" class="text-white text-sm w-1/3">Nom :</label>
+          <input name="nom" class="w-2/3 px-3 py-2 rounded-lg font-medium border border-gray-300 placeholder-gray-400 text-xs focus:outline-none focus:border focus:border-gray-400" type="text" placeholder="Votre nom" required />
+        </div>
+        <div class="flex items-center justify-between gap-3">
+          <label for="prenom" class="text-white text-sm w-1/3">Prénom :</label>
+          <input name="prenom" class="w-2/3 px-3 py-2 rounded-lg font-medium border border-gray-300 placeholder-gray-400 text-xs focus:outline-none focus:border focus:border-gray-400" type="text" placeholder="Prénom" />
+       </div>
+        <div class="flex items-center justify-between gap-3">
+          <label for="email" class="text-white text-sm w-1/3">Email :</label>
+          <input name="email" class="w-2/3 px-3 py-2 rounded-lg font-medium border border-gray-300 placeholder-gray-400 text-xs focus:outline-none focus:border focus:border-gray-400" type="email" placeholder="Votre adresse email" required />
+        </div>
+        <div class="flex items-center justify-between gap-3">
+          <label for="password" class="text-white text-sm w-1/3">Mot de passe :</label>
+          <input name="password" class="w-2/3 px-3 py-2 rounded-lg font-medium border border-gray-300 placeholder-gray-400 text-xs focus:outline-none focus:border focus:border-gray-400" type="password" placeholder="Votre mot de passe" required />
+        </div>
+        <div class="flex items-center justify-between gap-3">
+          <label for="password1" class="text-white text-sm w-1/3">Confirmez :</label>
+          <input name="password1" class="w-2/3 px-3 py-2 rounded-lg font-medium border border-gray-300 placeholder-gray-400 text-xs focus:outline-none focus:border focus:border-gray-400" type="password" placeholder="Confirmez le mot de passe" required />
+        </div>
+        <button type="submit" name="inscrir" class="mt-4 tracking-wide font-semibold bg-[#FEA116] text-gray-100 w-full py-2 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+          <svg class="w-4 h-4 -ml-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+            <circle cx="8.5" cy="7" r="4" />
+            <path d="M20 8v6M23 11h-6" />
+          </svg>
+          <span class="ml-2 text-xs">S'inscrire</span>
+        </button>
+        <p class="mt-4 text-xs text-gray-600 text-center">
+          <a href="login.php">
+            <span class="text-[#FEA116] font-semibold">Se connecter</span>
+          </a>
+        </p>
       </div>
-    </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
   </div>
 <?php
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["inscrir"])) {
+
+
     // Récupération des données du formulaire
     $nom = $_POST["nom"];
     $prenom = $_POST["prenom"];
-    $tel = $_POST["telephone"];
-    $adresse = $_POST["adresse"];
     $email = $_POST["email"];
     $password = $_POST["password"];
     $password1 = $_POST["password1"];
-    $id_role =3 ;  // Rôle client
+    $id_role =2 ;  // Rôle client
 
-    // Vérification de la correspondance des mots de passe
+  
     if ($password !== $password1) {
-        $error_message = "Les mots de passe ne correspondent pas.";
+            $_SESSION['msgSweetAlert']= [
+              'title' =>'Avertissment'  ,
+              'text' => 'les mots de passe ne sont pas identiques ',
+              'status' => 'error'
+            ] ;
+              sweetAlert('login.php'); 
+            exit; 
     } else {
-        // Hachage du mot de passe
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // Création d'un nouvel utilisateur
-        $newUser = new User($nom, $prenom, $email, $hashed_password, $tel, $adresse, $id_role);
-
-        // Enregistrement de l'utilisateur dans la base de données
+        $newUser = new User($nom, $prenom, $email, $hashed_password, $id_role);
         $result = User::registreUser($newUser);
-
+        // echo "The ID of the new user is: " . $_SESSION['id_user'];
+         header("Location: ../../index.php");
         if ($result) {
             // Démarrage de la session
             session_regenerate_id();
@@ -109,12 +110,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["inscrir"])) {
             $_SESSION['name'] = $nom;
             $_SESSION['email'] = $email;
             $_SESSION['role'] = "client";
-
-            // Redirection après inscription réussie
-            header("Location: login.php");
-            exit();
+            $_SESSION['id_role'] = "2";
+            $_SESSION['id_user'] = $newUser->lastInsertId();
         } else {
-            $error_message = "Erreur lors de l'inscription.";
+              $_SESSION['msgSweetAlert']= [
+                'title' =>'Avertissment'  ,
+                'text' => 'Erreur d enregistrement ',
+                'status' => 'error'
+               ] ;
+                sweetAlert('register.php'); 
+               exit; 
         }
     }
 }

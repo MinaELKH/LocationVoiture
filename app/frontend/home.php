@@ -43,10 +43,22 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
                             <a href="#" class="hover:text-gray-400 lg:p-4 py-2 text-white">Locations</a>
                             <a href="#" class="hover:text-gray-400 lg:p-4 py-2 text-white">Support</a> 
                         </div>
-                        <div class="flex-wrap inline-flex items-center py-1 space-x-2"> 
-                            <a href="#" class="border border-primary-500 hover:bg-primary-500 hover:text-white inline-block px-6 py-2 text-primary-500">Log In</a>
-                            <a href="#" class="bg-primary-500 border border-primary-500 hover:bg-primary-600 inline-block px-6 py-2 text-white">Sign Up</a> 
-                        </div>                         
+                 <?php
+                 if(isset($_SESSION['id_role']) &&  $_SESSION['id_role']==2){
+                   echo  "   <a href='#' class='flex items-center hover:text-[#FEA116] text-3xl'>
+                            <i class='fa-solid fa-user-tie'></i>
+                            </a>
+                        " ; 
+                  } else {
+                    echo  '<div class="flex-wrap inline-flex items-center py-1 space-x-2"> 
+                                <a href="../login/login.php" class="border border-primary-500 hover:bg-primary-500 hover:text-white inline-block px-6 py-2 text-primary-500">
+                                Log In</a>
+                                <a href="../login/register.php" class="bg-primary-500 border border-primary-500 hover:bg-primary-600 inline-block px-6 py-2 text-white">
+                                Sign Up</a> 
+                            </div>
+                         ' ; 
+                  }
+                 ?>
                     </div>                     
                 </nav>                 
             </div>
@@ -140,14 +152,14 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
             </section>
             <section class="bg-gray-50 py-24"> 
                 <div class="container mx-auto px-4"> 
-                    <div class="-mx-4 flex flex-wrap items-center mb-6"> 
+                    <div class="-mx-4flex flex-wrap items-center mb-6"> 
                         <div class="px-4 w-full md:w-10/12"> 
                             <h2 class="font-medium mb-1 text-primary-500 text-xl">Our Top Cars</h2>
                             <h3 class="capitalize font-bold mb-4 text-4xl text-gray-900">Cars for all your needs</h3>
                             <div class="bg-primary-500 mb-6 pb-1 w-2/12"></div>                             
                         </div>                         
                     </div>
-                    <div class="-mx-3 flex flex-wrap justify-center mb-12"> 
+                    <div class="-mx-3  grid grid-cols-3 justify-center mb-12"> 
                     <!-- debut card -->
 
                     <?php 
@@ -157,7 +169,7 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
                         ?>
                     <?php  
 foreach($result as $objet) :
-    echo   '<div class="p-3 w-full md:w-6/12 lg:w-4/12">
+    echo   '<div class="p-3 w-full md:grid-cols-2 lg:w-full">
     <div class="bg-white border shadow-md text-gray-500">
         <a href="#" class="block w-full h-[450px] bg-gray-300">
             <img src="' . $objet->photo . '" class="hover:opacity-90 w-full h-full object-cover" alt="..." />
@@ -266,7 +278,7 @@ foreach($result as $objet) :
                 <div>
                 <button 
                 class="btn_louer bg-gray-300 hover:bg-primary-600 inline-block px-6 py-2 text-gray-700" 
-                 value='.$objet->prix.'  onclick="openModal(\'modal\' , '.$objet->id_vehicule.' )">
+                 value='.$objet->prix.'  onclick="openModal(\'modalReservation\' , '.$objet->id_vehicule.' )">
                 Louer
                </button>
                 </div>

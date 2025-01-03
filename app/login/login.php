@@ -79,29 +79,25 @@ if (isset($_POST["connecter"]) && !empty($_POST["email"]) && !empty($_POST["pass
       $user = $result['user'];
    //   print_r($user);
           //client
-            session_start();
+          
             session_regenerate_id();
             $_SESSION['login'] = TRUE;
             $_SESSION['nom'] = $user->nom ."  ". $user->prenom;    
-            $_SESSION['id'] = $user->id_user; 
+            $_SESSION['id_user'] = $user->id_user; 
             $_SESSION['id_role'] = $user->id_role; 
-            echo 'Bienvenue  ' . $_SESSION['id_role'];
-           // echo "<br><p class='text-red-500 text-center'> role est" . $id_role ."</p>";
-                if($user->id_role==1) //SuperAdmin
-                {
-                  echo "<p class='text-red-500 text-center'>admin.</p>";
-                  $_SESSION['role'] ="admin" ;
-                  // var_dump($_SESSION['id_role'] );
-                  // exit ;
-                  header("location:../frontend/client.php") ;
-                  exit ;}
-                if($user->id_role==2) //admin
+           // echo 'Bienvenue  ' . $_SESSION['id_role'];
+            // echo "<br><p class='text-red-500 text-center'> role est" . $user->id_role ."</p>";
+            //       var_dump($_SESSION['id_role'] );
+            //       exit ;
+            
+         
+                if($user->id_role==1) //admin
                 {
                   echo "<p class='text-red-500 text-center'>admin.</p>";
                   $_SESSION['role'] ="admin" ;
                   header("location:../frontend/Dashboard.php") ;
                   exit ;
-                } else if ($user->id_role==3) {
+                } else if ($user->id_role==2) {
                   $_SESSION['role'] ="client" ;
                   header("location:../frontend/home.php") ;
                   exit ;

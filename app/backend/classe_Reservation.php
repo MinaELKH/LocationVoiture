@@ -209,7 +209,9 @@ class Reservation
 
 // $dbManager = new DatabaseManager();
 // $reservation = new Reservation($dbManager, 0 , 3 , 15);
-// $result = $reservation->disponibiliteWithProcedureSQL("2025-05-15", "2025-05-20", 250);
+
+
+// $result = $reservation->disponibiliteWithProcedureSQL("2025-05-15", "2025-05-20");
 
 // if ($result) {
 //     echo "Résultat : " . $result;

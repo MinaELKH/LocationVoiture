@@ -202,12 +202,9 @@ AS total;
 
 -- les views
 -- pour afficher les reservations en detailles 
-create view ListeResevation as
-select r.*  , u.nom as nom ,  c.nom  ,v.nom , v.marque , v.model 
-from reservation r
-inner join users  u  on u.id_user = r.id_user
-INNER JOIN vehicule  v on  v.id_vehicule = r.id_vehicule
-inner JOIN categorie c on   c.id_categorie = v.id_categorie 
+drop view  listeresevation ;
+
+CREATE VIEW `listeresevation`  AS SELECT `r`.`id_reservation` AS `id_reservation`, `r`.`id_vehicule` AS `id_vehicule`, `r`.`id_user` AS `id_user`, `r`.`id_agence` AS `id_agence`, `r`.`date_reservation` AS `date_reservation`, `r`.`date_debut` AS `date_debut`, `r`.`date_fin` AS `date_fin`,`r`.`prix` AS `prix`, `r`.`statut` AS `statut`, `r`.`archive` AS `archive`, `u`.`nom` AS `nom_user`, `c`.`nom` AS `nom_categorie`, `v`.`nom` AS `nom_vehicule`, `v`.`marque` AS `marque`, `v`.`model` AS `model` , `v`.`photo` AS `photo` FROM (((`reservation` `r` join `users` `u` on(`u`.`id_user` = `r`.`id_user`)) join `vehicule` `v` on(`v`.`id_vehicule` = `r`.`id_vehicule`)) join `categorie` `c` on(`c`.`id_categorie` = `v`.`id_categorie`));
 
 
 -- pour afficher la liste des vehicule 
@@ -220,7 +217,6 @@ inner JOIN categorie c on   c.id_categorie = v.id_categorie
 
 -- procedure stockee 
 --DROP PROCEDURE IF EXISTS  AjouterReservation ;
-
 DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `AjouterReservation`(
     IN v_id_vehicule INT,
@@ -256,7 +252,8 @@ BEGIN
     -- Si le véhicule est disponible, ajouter la réservation
     IF vehicule_disponible = 0 THEN
         -- Calcul du prix total
-        SET v_total_prix = DATEDIFF(v_date_fin, v_date_debut) * (select prix from vehicule where id_vehiclue = v_id_vehicule);
+          SET v_total_prix = DATEDIFF(v_date_fin, v_date_debut) * (SELECT prix FROM vehicule WHERE id_vehicule = v_id_vehicule);
+
 
         -- Insérer la réservation
         INSERT INTO reservation (

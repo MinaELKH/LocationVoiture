@@ -1,6 +1,6 @@
 <?php session_start();
-    $_SESSION['id_role'] = 1 ;
-    $_SESSION['role'] = 'admin' ;  
+    // $_SESSION['id_role'] = 1 ;
+    // $_SESSION['role'] = 'admin' ;  
 ?>
 <!DOCTYPE html>
 <html lang="fr">

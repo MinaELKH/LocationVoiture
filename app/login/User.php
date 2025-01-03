@@ -15,22 +15,15 @@ class User
 
     private $db;
 
-    public function __construct($nom,$prenom, $email, $pwd, $telephone, $adresse,$id_role = 3,$archive = 0
+    public function __construct($nom,$prenom, $email, $pwd, $id_role ,$archive = 0
     ) {
-
         $this->db = Database::getInstance()->getConnection();
-       
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->email = $email;
         $this->pwd = $pwd;
-        $this->telephone = $telephone;
-        $this->adresse = $adresse;
         $this->id_role = $id_role;
         $this->archive = $archive;
-
-
-        
     }
     public function __toString()
     {
@@ -48,10 +41,7 @@ class User
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
                 $user = $stmt->fetch(PDO::FETCH_OBJ);  // recupere le reusltat sous forme d objet en revanche ; il recupere sous format array assoc $user = $stmt->fetch(PDO::FETCH_ASSOC);  
-                
-             
-                if (password_verify($password, $user->pwd)) {
-                  
+                if (password_verify($password, $user->pwd)) {      
                     return [
                         'success' => true,
                         'user' => $user
@@ -84,22 +74,21 @@ class User
     static public function registreUser($newUser)
     {
         try {
-     
+        
             $strm = $newUser->db->prepare('
-                INSERT INTO users (nom, prenom, email, pwd, telephone, adresse, id_role, archive) 
-                VALUES (:nom, :prenom, :email, :pwd, :telephone, :adresse, :id_role, :archive)
+                INSERT INTO users (nom, prenom, email, pwd, id_role, archive) 
+                VALUES (:nom, :prenom, :email, :pwd,  :id_role, :archive)
             ');
             $strm->bindParam(':nom', $newUser->nom);
             $strm->bindParam(':prenom', $newUser->prenom);
             $strm->bindParam(':email', $newUser->email);
             $strm->bindParam(':pwd', $newUser->pwd);
-            $strm->bindParam(':telephone', $newUser->telephone);
-            $strm->bindParam(':adresse', $newUser->adresse);
             $strm->bindParam(':id_role', $newUser->id_role);
             $strm->bindParam(':archive', $newUser->archive);
 
         
             if ($strm->execute()) {
+          
                 return true; 
             } else {
                 return false; 
@@ -113,6 +102,14 @@ class User
     public function deconnecter(){
         session_start();
         session_destroy();
+        header('Location: ../index.php');
+    }
+
+    public function lastInsertId1() {
+        // echo "<script> alert('Last inserted ID:" . $this->db->lastInsertId() ."' )</script>";
+        // var_dump($this->db->lastInsertId());
+        // exit; 
+        return $this->db->lastInsertId();
     }
 }
 

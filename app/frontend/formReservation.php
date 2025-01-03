@@ -7,7 +7,7 @@
       prix=document.getElementById("prix") ;
   </script>
 
- <div id="modal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-40">
+ <div id="modalReservation" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-40">
     <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full relative">
       <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl" onclick="closeModal('modal')">
         &times;
@@ -51,11 +51,12 @@
       $date_debut=$_POST['date_debut'] ;
       $date_fin=$_POST['date_fin'] ;
       $id_vehicule = $_POST['id_ref'] ; 
+      $id_user = $_SESSION['id_user'] ;
       $dbManager = new DatabaseManager();
-      $reservation = new Reservation($dbManager, 0 , $id_vehicule , 15);
+      $reservation = new Reservation($dbManager, 0 , $id_vehicule , $id_user);
       $result = $reservation->disponibiliteWithProcedureSQL($date_debut, $date_fin);
 
-      if $result="disponible"
+      if ($result=="disponible")
       {
         $_SESSION['msgSweetAlert'] = [
           'title' =>'success'  ,
@@ -65,7 +66,7 @@
           sweetAlert('home.php'); 
           exit; 
       }
-      else if  $result="non_disponible"
+      else if  ($result=="non_disponible")
       {
               $_SESSION['msgSweetAlert']= [
                 'title' =>'Avertissment'  ,

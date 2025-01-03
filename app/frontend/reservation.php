@@ -1,12 +1,12 @@
 <?php
 ob_start();
-// session_start() ;
-// if ($_SESSION['id_role'] != 1 || $_SESSION['id_role'] != 3) { // client
-//     header("location: erreur.php");
-//     exit;
-// } else if ($_SESSION['id_role'] == 2 || $_SESSION['id_role'] == 1) { // admin ou superAdmin
-//     $id_user = $_SESSION['id'];
-// }
+session_start() ;
+if ($_SESSION['id_role'] != 1 ) { // client ou visiteur
+    header("location: erreur.php");
+    exit;
+} else if ( $_SESSION['id_role'] == 1) { // admin ou superAdmin
+    $id_user = $_SESSION['id'];
+}
 
 $title = "Gestion des réservations";
 require __DIR__ . "/../backend/classe_Vehicule.php";
