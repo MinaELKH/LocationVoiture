@@ -34,7 +34,12 @@
       }
     });
   }
-
-  
+//ajouter un commentaire en cliquant sur touche entrer
+  function submitOnEnter(event, form) {
+    if (event.key === "Enter") {
+      event.preventDefault(); 
+      form.submit();
+    }
+  }
 
 

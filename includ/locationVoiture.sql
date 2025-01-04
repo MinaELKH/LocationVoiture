@@ -77,14 +77,7 @@ ADD COLUMN prix DECIMAL(10, 2) NOT NULL AFTER date_fin;
 
 
 
-CREATE table avis(
-id_avis int(11) PRIMARY KEY AUTO_INCREMENT , 
-avis varchar(50) , 
-description text ,
-id_reservation int(11) , 
-FOREIGN key(id_reservation) REFERENCES reservation(id_reservation)   
-);
-
+CREATE TABLE avis ( id_avis INT AUTO_INCREMENT PRIMARY KEY, id_reservation INT NOT NULL, description TEXT, etoiles TINYINT CHECK (etoiles BETWEEN  0 AND 5), date_avis DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (id_reservation) REFERENCES reservation(id_reservation) ON DELETE CASCADE );
 
 
 
@@ -202,9 +195,8 @@ AS total;
 
 -- les views
 -- pour afficher les reservations en detailles 
-drop view  listeresevation ;
-
-CREATE VIEW `listeresevation`  AS SELECT `r`.`id_reservation` AS `id_reservation`, `r`.`id_vehicule` AS `id_vehicule`, `r`.`id_user` AS `id_user`, `r`.`id_agence` AS `id_agence`, `r`.`date_reservation` AS `date_reservation`, `r`.`date_debut` AS `date_debut`, `r`.`date_fin` AS `date_fin`,`r`.`prix` AS `prix`, `r`.`statut` AS `statut`, `r`.`archive` AS `archive`, `u`.`nom` AS `nom_user`, `c`.`nom` AS `nom_categorie`, `v`.`nom` AS `nom_vehicule`, `v`.`marque` AS `marque`, `v`.`model` AS `model` , `v`.`photo` AS `photo` FROM (((`reservation` `r` join `users` `u` on(`u`.`id_user` = `r`.`id_user`)) join `vehicule` `v` on(`v`.`id_vehicule` = `r`.`id_vehicule`)) join `categorie` `c` on(`c`.`id_categorie` = `v`.`id_categorie`));
+drop view listeresevation ; 
+select `r`.`id_reservation` AS `id_reservation`,`r`.`id_vehicule` AS `id_vehicule`,`r`.`id_user` AS `id_user`,`r`.`id_agence` AS `id_agence`,`r`.`date_reservation` AS `date_reservation`,`r`.`date_debut` AS `date_debut`,`r`.`date_fin` AS `date_fin`,`r`.`prix` AS `prix`,`r`.`statut` AS `statut`,`r`.`archive` AS `archive`,`u`.`nom` AS `nom_user`,`c`.`nom` AS `nom_categorie`,`v`.`nom` AS `nom_vehicule`,`v`.`marque` AS `marque`,`v`.`model` AS `model`,`v`.`photo` AS `photo`,`av`.`id_avis` AS `id_avis`,`av`.`description` AS `description`,`av`.`etoiles` AS `etoiles`,`av`.`date_avis` AS `date_avis` from ((((`locationvoiture`.`reservation` `r` join `locationvoiture`.`users` `u` on(`u`.`id_user` = `r`.`id_user`)) join `locationvoiture`.`vehicule` `v` on(`v`.`id_vehicule` = `r`.`id_vehicule`)) join `locationvoiture`.`categorie` `c` on(`c`.`id_categorie` = `v`.`id_categorie`)) left join `locationvoiture`.`avis` `av` on(`r`.`id_reservation` = `av`.`id_reservation`))
 
 
 -- pour afficher la liste des vehicule 

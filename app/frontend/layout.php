@@ -11,6 +11,8 @@
     <meta name="description" content="Concevoir une application web de gestion d agence de voyage">
     <meta name="keywords" content="voyage, travel, actvite, destination, reservation ,nature">
     <meta name="author" content="Mina">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <script src="https://cdn.tailwindcss.com"></script>
