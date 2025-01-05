@@ -200,11 +200,30 @@ select `r`.`id_reservation` AS `id_reservation`,`r`.`id_vehicule` AS `id_vehicul
 
 
 -- pour afficher la liste des vehicule 
-
+DROP VIEW IF EXISTS ListeVehicule;
 create view ListeVehicule as
-select  c.nom as nom_categorie ,v.*
-from  vehicule  v 
-inner JOIN categorie c on   c.id_categorie = v.id_categorie 
+SELECT 
+    c.nom AS nom_categorie,
+    v.id_vehicule AS id_vehicule,
+    v.nom AS nom,
+    v.marque AS marque,
+    v.model AS model,
+    v.disponibilite AS disponibilite,
+    v.archive AS archive,
+    v.id_categorie AS id_categorie,
+    v.photo AS photo,
+    v.prix AS prix,
+    COUNT(av.id_avis) AS totalAvis
+FROM 
+    locationvoiture.vehicule v
+JOIN 
+    locationvoiture.categorie c ON c.id_categorie = v.id_categorie
+LEFT JOIN 
+    locationvoiture.reservation r ON v.id_vehicule = r.id_vehicule
+LEFT JOIN 
+    locationvoiture.avis av ON av.id_reservation = r.id_reservation
+GROUP BY 
+    v.id_vehicule, c.nom, v.nom, v.marque, v.model, v.disponibilite, v.archive, v.id_categorie, v.photo, v.prix;
 
 
 -- procedure stockee 
@@ -284,3 +303,23 @@ CALL AjouterReservation(
 );
 
 
+
+
+
+-- view liste des avis par voiture
+DROP VIEW IF EXISTS listavisbyvehicule;
+
+CREATE VIEW listavisbyvehicule AS
+SELECT 
+    av.id_avis AS id_avis,
+    av.id_reservation AS id_reservation,
+    av.description AS description,
+    av.etoiles AS etoiles,
+    av.date_avis AS date_avis,
+    v.id_vehicule AS id_vehicule,
+    u.*
+FROM 
+    locationvoiture.avis av
+    INNER JOIN locationvoiture.reservation r ON r.id_reservation = av.id_reservation
+    INNER JOIN locationvoiture.vehicule v ON v.id_vehicule = r.id_vehicule
+    INNER JOIN locationvoiture.users u ON u.id_user = r.id_user;

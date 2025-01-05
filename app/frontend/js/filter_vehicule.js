@@ -1,29 +1,35 @@
-document.getElementById('filterForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    fetch('filter_vehicules.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        const container = document.getElementById('vehiculesContainer');
-        container.innerHTML = ''; // Vider le conteneur avant d'afficher les nouveaux résultats
+document.getElementById("filterForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-        if (data.length === 0) {
-            container.innerHTML = '<p>Aucun véhicule trouvé.</p>';
-            return;
-        }
+  const formData = new FormData(this);
 
-        data.forEach(objet => {
-            const vehiculeCard = `
+  const searchValue = formData.get("search");
+  console.log(searchValue);
+
+  fetch("filter_vehicules.php", {
+    method: "POST", // Utilise POST
+    body: formData, // Envoie les données du formulaire avec FormData
+  })
+    .then((response) => response.json()) // Récupère la réponse JSON
+    .then((data) => {
+      console.log(data); // Affiche la réponse du serveur
+      const container = document.getElementById("vehiculesContainer");
+      container.innerHTML = ""; // Vider le conteneur avant d'afficher de nouveaux résultats
+
+      if (data.length === 0) {
+        container.innerHTML = "<p>Aucun véhicule trouvé.</p>";
+        return;
+      }
+
+      // Affichage des véhicules
+      data.forEach((objet) => {
+        const vehiculeCard = `
             <div class="p-3 w-full md:grid-cols-2 lg:w-full">
                 <div class="bg-white border shadow-md text-gray-500">
                     <a href="#" class="block w-full h-[450px] bg-gray-300">
                         <img src="${objet.photo}" class="hover:opacity-90 w-full h-full object-cover" alt="${objet.nom}" />
                     </a>
-        
+
                     <div class="p-4">
                         <h4 class="font-bold mb-2 text-gray-900 text-xl">
                             <a href="#" class="hover:text-gray-500">${objet.nom} ${objet.model} ${objet.marque}</a>
@@ -57,8 +63,10 @@ document.getElementById('filterForm').addEventListener('submit', function (e) {
                 </div>
             </div>
             `;
-            container.insertAdjacentHTML('beforeend', vehiculeCard); // Corrigé : Insérer dans la boucle
-        });
+        container.insertAdjacentHTML("beforeend", vehiculeCard); // Affichage dans le conteneur
+      });
     })
-    .catch(error => console.error('Erreur:', error));
+    .catch((error) => {
+      console.error("Erreur:", error);
+    });
 });

@@ -1,28 +1,43 @@
 <?php
-
+header('Content-Type: application/json');
 require_once __DIR__ . "/../backend/classe_AfficheVehicule.php";
 require_once __DIR__ . '/../../includ/DatabaseManager.php';
 
-$dbManager = new DatabaseManager();
-$newfilterVehicule = new AfficheVehicule($dbManager);
+// la liste des vehicule apres le filtrage
 
-// Vérifier les filtres envoyés via AJAX
-$inputSearch = isset($_POST['search']) ? $_POST['search'] : '';
-$inputModel = isset($_POST['model']) ? $_POST['model'] : '';
-$inputMarque= isset($_POST['marque']) ? $_POST['marque'] : '';
-$inputCategorie = isset($_POST['categorie']) ? $_POST['categorie'] : '';
-     // Construction des filtres basés sur l'entrée utilisateur
-     $filters = [
-        'nom'  => $inputSearch,
-        'nom_categorie' => $inputSearch,
-        'model'         => $inputSearch,
-        'marque'        => $inputSearch , 
-        'nom_categorie' => $inputCategorie ,
-        'model'         => $inputModel,
-        'marque'        => $inputMarque
 
-    ];
-// Obtenir les résultats filtrés
-$result = $newfilterVehicule ->getFiltered($dbManager , $filters); // Assurez-vous que cette méthode existe dans `classe_Vehicule`.
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //$inputSearch = $_POST['search'];
+    $inputSearch = isset($_POST['search']) ? $_POST['search'] : '';
+    // $inputModel = isset($_POST['model']) ? $_POST['model'] : '';
+    // $inputMarque= isset($_POST['marque']) ? $_POST['marque'] : '';
+    $inputCategorie = isset($_POST['categorie']) ? $_POST['categorie'] : '';
+    $filters = [];
+    if (!empty($inputSearch)) {
+        $filters += [
+            'nom'  => $inputSearch,
+            'nom_categorie' => $inputSearch,
+            'model'         => $inputSearch,
+            'marque'        => $inputSearch
+        ];
+    }
+    if (!empty($inputCategorie)) {
+        $filters += ['nom_categorie' => $inputCategorie];
+    }
+    // if(!empty($inputMarque)){
+    //     $filters +=['marque' => $inputMarque];
+    // } 
+    // if(!empty($inputModel)){
+    //     $filters +=['model' => $inputModel];
+    // } 
 
-echo json_encode($result);
+    $dbManager = new DatabaseManager();
+    $newfilterVehicule = new AfficheVehicule($dbManager);
+    $result = $newfilterVehicule->getFiltered($dbManager, $filters); // Assurez-vous que cette méthode existe dans `classe_Vehicule`.
+
+    echo json_encode($result);
+} else {
+    echo json_encode([
+        'message' => 'Aucune recherche reçue'
+    ]);
+}

@@ -201,6 +201,43 @@ public function selectAttributById(string $table,array $attributs = [] ,  array 
 }
 
 
+// c est pas data manager mais il faut gere ce cas ou il y un fetchALL. C ESt meme focntion que  selectAttributById
+//mais cette fois il renvoit plusieur resultat 
+public function selectAvis(string $table,array $attributs = [] ,  array $params = []) : ?array
+{
+    if (!empty($attributs)) {
+            $column=  implode(' , ', $attributs);
+            $query = "SELECT $column FROM $table";
+    }
+    else {
+             $query = "SELECT * FROM $table";
+    }
+    if (!empty($params)) {
+        $conditions = [];
+        foreach ($params as $param => $condition) {  
+            $conditions[] = "$param = :$param";  
+            $query .= " WHERE " . implode(' AND ', $conditions);
+       }
+    }
+    $stmt = $this->connection->prepare($query);
+    if (!empty($params)) {
+        foreach ($params as $param => $condition) {
+            $stmt->bindValue(":$param", $condition, PDO::PARAM_STR);
+        }
+    }
+   if ($stmt->execute()){
+    $result = $stmt->fetchAll(PDO::FETCH_OBJ); 
+    // var_dump($result);
+    // exit ; 
+        return $result;
+   } else {
+      return false ; 
+   }
+
+   
+}
+
+
 
 
 

@@ -3,6 +3,7 @@
 
 
 function sweetAlert($redirectUrl) {
+
   if (isset($_SESSION['msgSweetAlert'])) {
       $titre = $_SESSION['msgSweetAlert']['title'];
       $text = $_SESSION['msgSweetAlert']['text'];
@@ -15,7 +16,7 @@ function sweetAlert($redirectUrl) {
                   text: '$text',
                   icon: '$status',
                   showConfirmButton: false,
-                  timer: 1000 // 2000 milliseconds = 2 seconds
+                  timer: 2000 // 2000 milliseconds = 2 seconds
               }).then(() => {
                   window.location.href = '$redirectUrl'; // Redirect after alert
               });

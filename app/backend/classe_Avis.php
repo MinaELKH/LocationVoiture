@@ -25,14 +25,17 @@ class Avis
     // Récupérer tous les avis
     public function getAll(): array
     {
-        return $this->dbManager->selectAll('avis');
+        return $this->dbManager->selectAll('listavisbyvehicule');
     }
 
     // Récupérer un avis par ID
-    public function getById($id): ?stdClass
+    public function getById($id): ?array
     {
-        $params = ['id_avis' => $id];
-        return $this->dbManager->selectById('avis', $params);
+        $params = ['id_vehicule' => $id];
+        $columns =[] ;
+        // var_dump($this->dbManager->selectAttributById('listavisbyvehicule', $columns , $params)) ;
+        // exit ; 
+        return $this->dbManager->selectAvis('listavisbyvehicule', $columns , $params);
     }
 
     // Ajouter un nouvel avis
