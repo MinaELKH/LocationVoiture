@@ -2,7 +2,12 @@
 ob_start();
 session_start();
 require("../../sweetAlert/sweetAlert.php"); 
-
+require "../backend/classe_Vehicule.php";
+require "../backend/classe_Categorie.php";
+require_once __DIR__ . '/../../includ/DB.php';
+require_once __DIR__ . '/../../includ/DatabaseManager.php';
+$dbManager = new DatabaseManager();
+$objVehicule = new Vehicule($dbManager);
 ?>
 
 <!DOCTYPE html>
@@ -22,29 +27,58 @@ require("../../sweetAlert/sweetAlert.php");
             <section>
 
             <div class="bg-white p-6">
-                    <h2 class="font-bold mb-2 text-gray-900 text-xl">Trouvons votre voiture idéale</h2>
-                    <form id="filterForm" class="flex space-x-4">
-                        <div class="-mx-2 flex flex-wrap gap-6 items-center">
-                            <select id="marque" name="marque" class="border p-2">
-                                <option value="">Toutes les marques</option>
-                                <option value="Toyota">Toyota</option>
-                                <option value="Honda">Honda</option>
-                            </select>
-                            <select id="model" name="model" class="border p-2">
-                                <option value="">Tous les modèles</option>
-                                <option value="Sedan">Sedan</option>
-                                <option value="SUV">SUV</option>
-                            </select>
-                            <input id="search" name="search" class="border p-2" placeholder="rechercher par ..." >
-                          
-                           <div class="p-1 text-right w-full sm:flex-initial sm:w-auto">
-                                 <button type="submit" class="bg-primary-500 hover:bg-primary-600 inline-block px-6 py-2 text-center text-white">
-                                                Recherche
-                                </button>
-                            </div>                                         
-                        </div>                                     
-                    </form>
-            </div>      
+    <h2 class="font-bold mb-2 text-gray-900 text-xl">Trouvons votre voiture idéale</h2>
+    <form id="filterForm" class="flex flex-wrap items-center gap-6">
+        <!-- Catalogue -->
+        <div class="flex flex-col">
+   
+                    <label for="categorie" class="block font-medium mb-1">Catégorie</label>
+                    <select  name="categorie" class="border p-2">
+                       <?php 
+                          $newCateg = new Categorie($dbManager) ; 
+                          $categories =  $newCateg->getAll() ; 
+                            foreach ($categories as $categorie): 
+                                ?>
+                                <option value="<?= $categorie->nom ?>"><?= $categorie->nom ?></option>
+                            <?php endforeach ?>
+                    </select>
+           </div>
+        
+
+        <!-- Marque -->
+        <div class="flex flex-col">
+            <label for="marque" class="text-gray-700 font-semibold mb-1">Marque</label>
+            <select id="marque" name="marque" class="border p-2">
+        
+            </select>
+        </div>
+
+        <!-- Modèle -->
+        <div class="flex flex-col">
+            <label for="model" class="text-gray-700 font-semibold mb-1">Modèle</label>
+            <select id="model" name="model" class="border p-2">
+                <option value="">Tous les modèles</option>
+                <option value="Sedan">Sedan</option>
+                <option value="SUV">SUV</option>
+            </select>
+        </div>
+
+        <!-- Recherche -->
+        <div class="flex flex-col">
+            <label for="search" class="text-gray-700 font-semibold mb-1">Mot clé</label>
+            <input id="search" name="search" class="border p-2" placeholder="Rechercher par ..." />
+        </div>
+
+        <!-- Bouton de recherche -->
+        <div class="flex flex-col justify-end">
+            <label class="invisible">Recherche</label> <!-- Label invisible pour garder l'alignement -->
+            <button type="submit" class="bg-primary-500 hover:bg-primary-600 inline-block px-6 py-2 text-center text-white">
+                Recherche
+            </button>
+        </div>
+    </form>
+</div>
+
 
 
               

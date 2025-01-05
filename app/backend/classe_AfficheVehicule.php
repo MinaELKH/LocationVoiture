@@ -21,18 +21,10 @@ class AfficheVehicule
         $params = ['id_vehicule' => $id];
         return $dbManager->selectById('listevehicule', $params);
     }
-    public static function getFiltered($dbManager, $inputSearch, $limit_row = 10, $offset_row = 0)
+    public static function getFiltered($dbManager, $filters, $limit_row = 10, $offset_row = 0)
     {
         $params = ['archive' => '0'];
-    
-        // Construction des filtres basés sur l'entrée utilisateur
-        $filters = [
-            'nom'  => $inputSearch,
-            'nom_categorie' => $inputSearch,
-            'model'         => $inputSearch,
-            'marque'        => $inputSearch
-        ];
-    
+
         // Appel à la méthode de la base de données avec gestion des filtres et pagination
         return $dbManager->selectAllFilterLimit('listevehicule', $params, $filters, $limit_row, $offset_row);
     }

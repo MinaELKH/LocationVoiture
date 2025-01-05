@@ -114,7 +114,7 @@ public function selectAllFilterLimit(string $table, array $params = [], array $f
     if (!empty($filters)) {
         $conditions_filter = [];
         foreach ($filters as $filter => $value) {
-            $conditions_filter[] = "$filter like :$filter";
+            $conditions_filter[] = "$filter LIKE :$filter";
         }
         // Les filtres sont liés par "OR" et ajoutés au tableau des conditions
         $conditions[] = '(' . implode(' OR ', $conditions_filter) . ')';
@@ -145,7 +145,7 @@ public function selectAllFilterLimit(string $table, array $params = [], array $f
     // Liaison des valeurs des filtres
     if (!empty($filters)) {
         foreach ($filters as $filter => $value) {
-            $stmt->bindValue(":$filter", $value, PDO::PARAM_STR);
+            $stmt->bindValue(":$filter", '%' . $value .'%', PDO::PARAM_STR);
         }
     }
 
