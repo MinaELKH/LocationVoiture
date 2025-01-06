@@ -75,11 +75,13 @@
 
 <?php
 ob_start();
-$_SESSION['id_user'] = 15;
+session_start();
+
 
 $title = "Gestion des réservations";
 
 require __DIR__ . "/../backend/classe_AfficheReservation.php";
+require __DIR__ . "/../backend/classe_Reservation.php";
 require __DIR__ . "/../backend/classe_Avis.php";
 require_once __DIR__ . '/../../includ/DB.php';
 require_once __DIR__ . '/../../includ/DatabaseManager.php';
@@ -109,9 +111,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $afficheReservation = new AfficheReservation($dbManager);
-$id_user = $_SESSION['id_user'];
-$result = $afficheReservation->getAllReserv_Of_User($id_user);
+$id_user =  $_SESSION['id_user'] ;
 
+$result = $afficheReservation->getAllReserv_Of_User($id_user);
+// var_dump($id_user) ;
+// die() ;
 foreach ($result as $objet) :
 
     echo '<div class=" reservation space-y-6 my-2.5">

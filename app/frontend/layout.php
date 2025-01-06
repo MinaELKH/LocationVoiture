@@ -1,6 +1,6 @@
-<?php session_start();
-    // $_SESSION['id_role'] = 1 ;
-    // $_SESSION['role'] = 'admin' ;  
+<?php //session_start();
+// $_SESSION['id_role'] = 1 ;
+// $_SESSION['role'] = 'admin' ;  
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -13,7 +13,7 @@
     <meta name="author" content="Mina">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"><!--icon usee-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Voyage</title>
@@ -22,24 +22,27 @@
     <link rel="icon" href="img/logo1.jpg" type="image/x-icon">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"> <!-- icon reseau sociaux-->
     <link rel="stylesheet" href="styles/index.css" />
-    <?php  if($title!="DASHBORD") {echo "<script src='js/main.js' defer></script>";} 
+    <?php if ($title != "DASHBORD") {
+        echo "<script src='js/main.js' defer></script>";
+    }
     ?>
+    <script src='js/main.js' defer></script>
     <script src='js/burger.js' defer></script>
     <link rel="stylesheet" href="css/style.css" />
 
 
 </head>
 
-<body class=" flex flex-col relative bg-[url('img/map3.png')] bg-[#FAF5F1] no-repeat bg-cover    kanit-medium">
+<body id="pageLayout" class=" flex flex-col relative bg-[url('img/map3.png')] bg-[#FAF5F1] no-repeat bg-cover    kanit-medium">
     <div class=" flex ">
         <aside class="hidden lg:block   bg-white bg-opacity-80   border-2 border-orange-100 rounded-xl w-1/5 p-2 pt-10">
-            <div >
+            <div>
                 <img class="mx-auto" src="img/logo.png" width="150" alt="logo">
             </div>
-            
-            <?php  
-if ($_SESSION['id_role'] == 1) {
-    echo '<nav id="menu" class="hidden lg:flex flex-col justify-center mx-auto items-center align-center mt-16">
+            <nav id="menu" class="hidden lg:flex flex-col justify-center mx-auto items-center align-center mt-16">
+            <?php
+            if ($_SESSION['id_role'] == 1) {
+                echo '
             <a href="home.php"
                 class="text-orange-400 flex justify-center items-center m-2 w-2/3 border-2 cursor-pointer border-orange-400 rounded-lg hover:scale-[1.1] hover:text-gray-800">
                 <span class="material-symbols-outlined cursor-pointer lg:text-4xl">Home</span> DashBorad
@@ -56,51 +59,50 @@ if ($_SESSION['id_role'] == 1) {
                 class="text-orange-400 flex items-center m-2 justify-center w-2/3 border-2 cursor-pointer border-orange-400 rounded-lg hover:scale-[1.1] hover:text-gray-800">
                 <span class="material-symbols-outlined cursor-pointer lg:text-4xl">airplane_ticket</span> Réservation
             </a>';
-
-}
-if ($_SESSION['id_role'] == 2 ) { 
-          echo  '<a href="categorie.php"
-                class="text-orange-400 flex items-center justify-center gap-5 m-2 w-2/3 border-2 cursor-pointer border-orange-400 rounded-lg hover:scale-[1.1] hover:text-gray-800">
-                <span class="material-symbols-outlined cursor-pointer lg:text-4xl">person_add</span> categorie
-            </a>
-        </nav>'; 
-} 
-
-if ($_SESSION['role'] == 'categorie') {
-    echo '<nav id="menu" class="hidden lg:flex flex-col justify-center mx-auto items-center align-center mt-16">
-            <a href="home.php"
+            }
+            if ($_SESSION['id_role'] == 2) {
+                echo  '  <a href="home.php"
                 class="text-orange-400 flex justify-center items-center m-2 w-2/3 border-2 cursor-pointer border-orange-400 rounded-lg hover:scale-[1.1] hover:text-gray-800">
-                <span class="material-symbols-outlined cursor-pointer lg:text-4xl">Home</span> Accueil
+                <span class="material-symbols-outlined cursor-pointer lg:text-4xl">Home</span> Home
             </a>
-        </nav>'; 
-} 
-?>
+        ';
+            }
+
+
+            ?>
+            </nav>
         </aside>
-        <div  class="w-full">
+        <div class="w-full">
             <header class="p-5 lg:my-2.5 ">
-            
+
                 <div class=" mx-auto flex justify-between items-center">
-                <div >
-                <img class="lg:hidden mx-auto" src="img/logo.png" width="150" alt="logo">
-            </div>
+                    <div>
+                        <img class="lg:hidden mx-auto" src="img/logo.png" width="150" alt="logo">
+                    </div>
 
-                <div class="flex  lg:ml-auto lg:flex-row flex-1  items-center  justify-end">
-                        <a href="../login/deconnecter.php" class="text-white">
-                            <img src="./img/User.png" alt="user logo"> 
-                            <p class="text-orange-400">deconnecter</p>
-                        </a>
+                    <div class="flex  lg:ml-auto lg:flex-row flex-1  items-center  justify-end">
 
-                </div>
-                <div id="menuBurger" class="lg:hidden bg-black text-white p-4 absolute w-1/3 top-10 right-0 hidden">
-                    <nav class="flex flex-col items-center">
-                        <a href="index.php" class="hover:bg-white hover:text-black rounded px-3 py-1 mb-2">DashBoard</a>
-                        <a href="reservation.php"
-                            class="hover:bg-white hover:text-black rounded px-3 py-1 mb-2">Reservation</a>
-                        <a href="vehicule.php" class="hover:bg-white hover:text-black rounded px-3 py-1 mb-2">Véhicule
-                            Us</a>
-                        <a href="categorie.php" class="hover:bg-white hover:text-black rounded px-3 py-1 mb-2">categorie</a>
-                    </nav>
-                </div>
+                        <div class='relative group z-50'>
+                            <a href='#' id='menuToggle' class='flex flex-col items-center hover:text-[#FEA116] text-xl'>
+                                <div><i class='fa-solid fa-user-tie'></i>
+                                    <h5 class='text-sm text-orange-500'> <?= $_SESSION['id_user'] ?> <?= $_SESSION['nom'] ?> </h5>
+                            </a>
+                            <a href='../login/deconnecter.php' class='block hover:bg-gray-600 p-2 rounded text-sm'>deconnecter</a>
+
+                        </div>
+
+
+                    </div>
+                    <div id="menuBurger" class="lg:hidden bg-black text-white p-4 absolute w-1/3 top-10 right-0 hidden">
+                        <nav class="flex flex-col items-center">
+                            <a href="index.php" class="hover:bg-white hover:text-black rounded px-3 py-1 mb-2">DashBoard</a>
+                            <a href="reservation.php"
+                                class="hover:bg-white hover:text-black rounded px-3 py-1 mb-2">Reservation</a>
+                            <a href="vehicule.php" class="hover:bg-white hover:text-black rounded px-3 py-1 mb-2">Véhicule
+                                Us</a>
+                            <a href="categorie.php" class="hover:bg-white hover:text-black rounded px-3 py-1 mb-2">categorie</a>
+                        </nav>
+                    </div>
                     <div class="lg:hidden ml-auto order-3">
                         <button id="menu-button" class="text-black">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -115,32 +117,34 @@ if ($_SESSION['role'] == 'categorie') {
 
 
                 </div>
-<!-- Menu burger-->
-              
+                <!-- Menu burger-->
+
             </header>
             <div class="px-2.5">
-            <hr class="border-t border-orange-400 opacity-50">
-          
-             </div>
+                <hr class="border-t border-orange-400 opacity-50">
 
-          
-            
-
-             <div class=" flex justify-between lg:mx-20  mb-8      p-2 border-b-2 border-y-indigo-300  ">
+            </div>
 
 
-             <h2 class="text-2xl text-indigo-800  "> <?php echo $title; ?></h2>
-          
-          
-                 <?php  if($title=="Gestion des reservations") {echo $serachVehicule;} ?>
-
-         </div>
-         
-               
-          
 
 
-        
+            <div class=" flex justify-between lg:mx-20  mb-8      p-2 border-b-2 border-y-indigo-300  ">
+
+
+                <h2 class="text-2xl text-indigo-800  "> <?php echo $title; ?></h2>
+
+
+                <?php if ($title == "Gestion des reservations") {
+                    echo $serachVehicule;
+                } ?>
+
+            </div>
+
+
+
+
+
+
 
 
             <main class="flex-grow ">

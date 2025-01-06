@@ -14,7 +14,7 @@ class AfficheReservation
     {
 
         $params = ['archive' => '0' ,
-                   'id_user' =>$id_user];
+                   'id_user' =>13];
         return $this->dbManager->selectAll('listeresevation', $params);
     }
 

@@ -17,6 +17,7 @@ class Reservation
     private ?string $date_debut;
     private ?string $date_fin;
     private ?Statut $statut;
+    private ?int $archive;
 
     public function __construct(
         DatabaseManager $dbManager,
@@ -27,7 +28,8 @@ class Reservation
         ?string $date_reservation = null,
         ?string $date_debut = null,
         ?string $date_fin = null,
-        ?Statut $statut = null 
+        ?Statut $statut = null ,
+        ?int $archive = 0
     ) {
         $this->dbManager = $dbManager;
         $this->id_reservation = $id_reservation;
@@ -38,6 +40,7 @@ class Reservation
         $this->date_debut = $date_debut;
         $this->date_fin = $date_fin;
         $this->statut = $statut;
+        $this->archive = $archive;
     }
 
     // Récupérer toutes les réservations
@@ -50,8 +53,10 @@ class Reservation
     // Récupérer une réservation par ID
     public function getById($id): ?stdClass
     {
+        $column=[] ; 
         $params = ['id_reservation' => $id];
-        return $this->dbManager->selectById('reservation', $params);
+
+        return $this->dbManager->selectAttributById('reservation',$column, $params);
     }
 
     // Ajouter une nouvelle réservation
@@ -64,7 +69,8 @@ class Reservation
             'date_reservation' => $this->date_reservation,
             'date_debut' => $this->date_debut,
             'date_fin' => $this->date_fin,
-            'statut' => $this->statut
+            'statut' => $this->statut , 
+            'archive' => $this->archive
         ];
         return $this->dbManager->insert('reservation', $data);
     }
@@ -101,9 +107,9 @@ class Reservation
     }
 
 
-    public function getAttributById(array $attributs = []): bool // il prend en param un array des colonne a affichées
+    public function getAttributById(array $attributs = []): ?stdClass// il prend en param un array des colonne a affichées
     {
-        $params = ['id_reservation' => $id];
+        $params = ['id_reservation' => $this->id_reservation];
         return $this->dbManager->selectAttributById('reservation',$attributs , $params );
     }
 

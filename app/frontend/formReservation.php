@@ -47,8 +47,7 @@
   if (isset($_POST["reserver"])) {
  
   if (isset($_SESSION['id_role']) &&  $_SESSION['id_role'] == 2){
-    var_dump(isset($_POST["reserver"]) ) ; 
-    exit ; 
+ 
   
     $date_debut = $_POST['date_debut'];
     $date_fin = $_POST['date_fin'];

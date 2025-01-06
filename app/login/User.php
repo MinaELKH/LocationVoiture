@@ -105,7 +105,7 @@ class User
         header('Location: ../index.php');
     }
 
-    public function lastInsertId1() {
+    public function lastInsertId() {
         // echo "<script> alert('Last inserted ID:" . $this->db->lastInsertId() ."' )</script>";
         // var_dump($this->db->lastInsertId());
         // exit; 

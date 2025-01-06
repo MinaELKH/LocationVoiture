@@ -16,7 +16,7 @@ function sweetAlert($redirectUrl) {
                   text: '$text',
                   icon: '$status',
                   showConfirmButton: false,
-                  timer: 2000 // 2000 milliseconds = 2 seconds
+                  timer: 5000 // 2000 milliseconds = 2 seconds
               }).then(() => {
                   window.location.href = '$redirectUrl'; // Redirect after alert
               });

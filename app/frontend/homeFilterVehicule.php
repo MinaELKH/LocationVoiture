@@ -19,6 +19,8 @@ $objVehicule = new Vehicule($dbManager);
     <title>Design of the Week Template 12 - Pinegrow Web Editor</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script><!--sweet alert-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" /><!--etoile-->
     <script src="js/filter_vehicule.js" defer></script>  <!-- js qui contient le fetch de la liste de vehiclue-->
     <link href="PrimeDrive_TW/PrimeDrive_TW/tailwind_theme/tailwind.css" rel="stylesheet" type="text/css">
     <script>
@@ -46,19 +48,65 @@ $objVehicule = new Vehicule($dbManager);
 </head>
 
 <body class="font-serif text-gray-500">
-
+<header class="bg-gray-900 bg-opacity-95 py-2">
+        <div class="container mx-auto relative">
+            <nav class="flex flex-wrap items-center px-4">
+                <a href="home.php" class="font-bold font-sans hover:text-opacity-75 inline-flex items-center leading-none mr-4 space-x-1 text-primary-500 text-xl uppercase"><svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="2.5em" xml:space="preserve" fill="currentColor" viewBox="0 0 100 100" height="2.5em">
+                        <path d="M38.333 80a11.571 11.571 0 0 1-7.646-2.883A11.724 11.724 0 0 1 26.834 70H10V46.667L43.333 40l20-20H90v26.667H43.995l-27.328 5.465v11.2h11.166a11.787 11.787 0 0 1 4.212-4.807 11.563 11.563 0 0 1 12.577 0 11.789 11.789 0 0 1 4.213 4.807h7.833V70h-6.837a11.719 11.719 0 0 1-3.853 7.117A11.571 11.571 0 0 1 38.333 80Zm0-16.667a5 5 0 1 0 5 5 5.006 5.006 0 0 0-5.001-5Zm27.761-36.666L52.762 40h30.571V26.667Z"></path>
+                        <path d="M56.667 63.333h-7.833a11.6 11.6 0 0 0-21 0H16.667v-11.2l27.328-5.465h12.672Z" opacity="0.2"></path>
+                        <path d="M90 63.333H80v-10h-6.667v10h-10V70h10v10H80V70h10Z"></path>
+                        <path d="M52.762 40h30.571V26.667H66.094Z" opacity="0.2"></path>
+                    </svg><span>Prime Drive</span> </a>
+                <button class="hover:bg-primary-500 hover:text-white ml-auto px-3 py-2 rounded text-white lg:hidden" data-name="nav-toggler" data-pg-ia='{"l":[{"name":"NabMenuToggler","trg":"click","a":{"l":[{"t":"^nav|[data-name=nav-menu]","l":[{"t":"set","p":0,"d":0,"l":{"class.remove":"hidden"}}]},{"t":"#gt# span:nth-of-type(1)","l":[{"t":"tween","p":0,"d":0.2,"l":{"rotationZ":45,"yPercent":300}}]},{"t":"#gt# span:nth-of-type(2)","l":[{"t":"tween","p":0,"d":0.2,"l":{"autoAlpha":0}}]},{"t":"#gt# span:nth-of-type(3)","l":[{"t":"tween","p":0,"d":0.2,"l":{"rotationZ":-45,"yPercent":-300}}]}]},"pdef":"true","trev":"true"}]}' data-pg-ia-apply="$nav [data-name=nav-toggler]">
+                    <span class="block border-b-2 border-current my-1 w-6"></span>
+                    <span class="block border-b-2 border-current my-1 w-6"></span>
+                    <span class="block border-b-2 border-current my-1 w-6"></span>
+                </button>
+                <div class="flex-1 hidden space-y-2 w-full lg:flex lg:items-center lg:space-x-4 lg:space-y-0 lg:w-auto" data-name="nav-menu">
+                    <div class="flex flex-col mr-auto lg:flex-row">
+                        <a href="home.php" class="hover:text-gray-400 lg:p-4 py-2 text-white">Acceuil</a>
+                        <a href="#" class="hover:text-gray-400 lg:p-4 py-2 text-white">Offre</a>
+                        <a href="#" class="hover:text-gray-400 lg:p-4 py-2 text-white">Locations</a>
+                        <a href="#" class="hover:text-gray-400 lg:p-4 py-2 text-white">Support</a>
+                    </div>
+                    <?php
+                    if (isset($_SESSION['id_role']) &&  $_SESSION['id_role'] == 2) {
+                        echo " <div class='relative group z-50'>
+                                    <a href='#' id='menuToggle' class='flex flex-col items-center hover:text-[#FEA116] text-xl'>
+                                    <div><i class='fa-solid fa-user-tie'></i>
+                                    <i class='fa fa-caret-down'></i></div>
+                                        <h5 class='text-sm text-primary-500'>" . $_SESSION['id_user'] . " " . $_SESSION['nom'] . "</h5>
+                                    </a>
+                                    <div
+                                    id='dropdownMenu'
+                                    class='absolute hidden bg-gray-800 text-white mt-2 rounded shadow-md p-2 space-y-2 '
+                                    >
+                                    <a href='espaceClient.php' class='block hover:bg-gray-700 p-2 rounded  text-sm'>Mon espace</a>
+                                    <a href='../login/deconnecter.php' class='block hover:bg-gray-700 p-2 rounded text-sm'>quiter</a>
+                                   
+                                    </div>
+                                </div>
+                                            ";
+                    } else {
+                        echo  '<div class="flex-wrap inline-flex items-center py-1 space-x-2"> 
+                                <a href="../login/login.php" class="border border-primary-500 hover:bg-primary-500 hover:text-white inline-block px-6 py-2 text-primary-500">
+                                Log In</a>
+                                <a href="../login/register.php" class="bg-primary-500 border border-primary-500 hover:bg-primary-600 inline-block px-6 py-2 text-white">
+                                Sign Up</a> 
+                            </div>
+                         ';
+                    }
+                    ?>
+                </div>
+            </nav>
+        </div>
+    </header>
 
 
     <main>
         <section>
-
             <div class="bg-white p-6">
-
-
-
-                <h2 class="font-bold mb-2 text-gray-900 text-xl">Trouvons votre voiture idéale</h2>
-
-
+            <h2 class="font-bold mb-2 text-gray-900 text-xl">Trouvons votre voiture idéale</h2>
                 <form id="filterForm" class="flex flex-wrap items-center gap-6">
                     <!-- Catalogue -->
                     <div class="flex flex-col">
@@ -75,8 +123,6 @@ $objVehicule = new Vehicule($dbManager);
                             <?php endforeach ?>
                         </select>
                     </div>
-
-
                     <!-- Recherche -->
                     <div class="flex flex-col">
                         <label for="search" class="text-gray-700 font-semibold mb-1">Mot clé</label>
@@ -241,6 +287,7 @@ $objVehicule = new Vehicule($dbManager);
             </div>
         </div>
     </footer>
+    <?php require_once('formReservation.php'); ?>
 </body>
 
 </html>

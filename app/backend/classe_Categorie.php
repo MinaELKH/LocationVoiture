@@ -32,7 +32,9 @@ class Categorie
     public function getById($id): ?stdClass
     {
         $params = ['id_categorie' => $id];
-        return $this->dbManager->selectById('categorie', $params);
+        $attributs = [] ;
+        return $this->dbManager->selectAttributById('categorie',$attributs, $params);
+    
     }
 
     public function ajouterCategorie(): bool

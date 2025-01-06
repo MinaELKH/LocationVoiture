@@ -50,7 +50,7 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
     </script>
 </head>
 
-<body class="font-serif text-gray-500">
+<body id="pageHome" class="font-serif text-gray-500">
     <header class="bg-gray-900 bg-opacity-95 py-2">
         <div class="container mx-auto relative">
             <nav class="flex flex-wrap items-center px-4">
@@ -74,12 +74,22 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
                     </div>
                     <?php
                     if (isset($_SESSION['id_role']) &&  $_SESSION['id_role'] == 2) {
-                        echo "   
-                        <a href='#' class='flex flex-col items-center hover:text-[#FEA116] text-3xl'>
-                            <i class='fa-solid fa-user'></i>
-                            <h5 class='text-sm text-primary-500'>" . $_SESSION['nom'] . "</h5>
-                        </a>
-                    ";
+                        echo " <div class='relative group z-50'>
+                                    <a href='#' id='menuToggle' class='flex flex-col items-center hover:text-[#FEA116] text-xl'>
+                                    <div><i class='fa-solid fa-user-tie'></i>
+                                    <i class='fa fa-caret-down'></i></div>
+                                        <h5 class='text-sm text-primary-500'>" . $_SESSION['id_user'] . " " . $_SESSION['nom'] . "</h5>
+                                    </a>
+                                    <div
+                                    id='dropdownMenu'
+                                    class='absolute hidden bg-gray-800 text-white mt-2 rounded shadow-md p-2 space-y-2 '
+                                    >
+                                    <a href='espaceClient.php' class='block hover:bg-gray-700 p-2 rounded  text-sm'>Mon espace</a>
+                                    <a href='../login/deconnecter.php' class='block hover:bg-gray-700 p-2 rounded text-sm'>quiter</a>
+                                   
+                                    </div>
+                                </div>
+                                            ";
                     } else {
                         echo  '<div class="flex-wrap inline-flex items-center py-1 space-x-2"> 
                                 <a href="../login/login.php" class="border border-primary-500 hover:bg-primary-500 hover:text-white inline-block px-6 py-2 text-primary-500">
@@ -101,21 +111,9 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
                     <div class="px-4 w-full md:w-9/12 xl:w-7/12 2xl:w-6/12">
                         <p class="font-bold font-sans mb-1 text-2xl text-white">Location de voitures</p>
                         <h1 class="font-bold mb-6 text-5xl text-white md:leading-tight lg:leading-tight lg:text-6xl">For Your <span class="text-primary-500">Trajet quotidien</span> or <span class="text-primary-500">Leisure</span></h1>
-                        <div class="bg-white p-6">
+                        <div class="flex justify-between bg-white p-6">
                             <h2 class="font-bold mb-2 text-gray-900 text-xl">Trouvons votre voiture idéale</h2>
-                            <form>
-                                <div class="-mx-2 flex flex-wrap items-center">
-                                    <div class="p-1 w-full sm:flex-1">
-                                        <input class="appearance-none border px-5 py-2 text-gray-600 w-full" type="email" required placeholder="Enter your pick up location..." />
-                                    </div>
-                                    <div class="p-1 w-full sm:w-4/12">
-                                        <input class="appearance-none border px-5 py-2 text-gray-600 w-full" type="date" required />
-                                    </div>
-                                    <div class="p-1 text-right w-full sm:flex-initial sm:w-auto">
-                                        <a href="#" class="bg-primary-500 hover:bg-primary-600 inline-block px-6 py-2 text-center text-white"><span>Recherche</span></a>
-                                    </div>
-                                </div>
-                            </form>
+                            <a href="homeFilterVehicule.php" class="self-end bg-primary-500 hover:bg-primary-600 inline-block px-6 py-2 text-center text-white"><span>Faire Votre filtre </span></a> 
                         </div>
                     </div>
                 </div>
@@ -123,7 +121,6 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
         </section>
 
         <section class="py-24">
-
             <div class="container mx-auto px-4">
                 <div class="-mx-4 flex flex-wrap items-center mb-6">
                     <div class="px-4 w-full md:w-10/12">
@@ -138,6 +135,7 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
                 <!-- Les véhicules filtrés s'afficheront ici -->
             </div>
         </section>
+   
 
         <section class="py-24">
             <div class="container mx-auto px-4">
@@ -183,8 +181,8 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
                 </div>
             </div>
         </section>
-  
-   
+
+        <?php require_once('formReservation.php'); ?>
     </main>
     <!-- <footer class="bg-black bg-opacity-90 pt-12 text-gray-300">
         <div class="container mx-auto px-4 relative">
@@ -324,13 +322,14 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
             </div>
         </div>
     </footer> -->
+    
+
 </body>
 
 
 
 <!-- formulaire de reservation -->
 
-<?php require_once('formReservation.php'); ?>
 
 
 

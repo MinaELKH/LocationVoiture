@@ -19,7 +19,8 @@
     window.history.replaceState(null, null, baseUrl);
     // cette methode permet de remplacer l url sans rechareg la page
   }
-  if(document.body.id == "pageHome"){
+  if(document.body.id == "pageHome" || document.body.id == "pageLayout"){
+    //alert("helo")
       const menuToggle = document.getElementById('menuToggle');
       const dropdownMenu = document.getElementById('dropdownMenu');
       menuToggle.addEventListener('click', (event) => {

@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["inscrir"])) {
             // Démarrage de la session
             session_regenerate_id();
             $_SESSION['login'] = TRUE;
-            $_SESSION['name'] = $nom;
+            $_SESSION['nom'] = $nom;
             $_SESSION['email'] = $email;
             $_SESSION['role'] = "client";
             $_SESSION['id_role'] = "2";

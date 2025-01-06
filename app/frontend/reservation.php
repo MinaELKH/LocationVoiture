@@ -5,7 +5,7 @@ if ($_SESSION['id_role'] != 1 ) { // client ou visiteur
     header("location: erreur.php");
     exit;
 } else if ( $_SESSION['id_role'] == 1) { // admin ou superAdmin
-    $id_user = $_SESSION['id'];
+    $id_user = $_SESSION['id_user'];
 }
 
 $title = "Gestion des réservations";
@@ -47,11 +47,12 @@ function afficher($dbManager)
         echo "<tr>
                     <th>Réference</th>
                     <th>Véhicule</th>
-                    <th>Date de réservation</th>
+                    <th>client</th>
                     <th>Date début</th>
                     <th>Date fin</th>
                     <th>Statut</th>
-                    <th>Action</th>
+                    <th>Statut</th>
+                    <th>Archive</th>
                </tr></thead><tbody>";
 
         foreach ($reservations as $objet) {
@@ -77,14 +78,14 @@ function afficher($dbManager)
             </form>
            </td>
            
-                <td class='flex align-center justify-center'>
-                    <form action='' method='post'>
-                        <input type='hidden' name='id_reservation' value='{$objet->id_reservation}'>
-                        <button type='submit' name='archive' value='$id'>
-                            <span class='text-red-400 cursor-pointer material-symbols-outlined'>archive</span>
-                        </button>
-                    </form>
-                </td>
+                    <td class='flex align-center justify-center'>
+                        <form action='' method='post'>
+                            <input type='hidden' name='id_reservation' value='{$objet->id_reservation}'>
+                            <button type='submit' name='archive' value='$id'>
+                                <span class='text-red-400 cursor-pointer material-symbols-outlined'>archive</span>
+                            </button>
+                        </form>
+                    </td>
             </tr>";
         }
         echo "</tbody></table></div>";

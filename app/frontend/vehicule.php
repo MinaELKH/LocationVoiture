@@ -1,6 +1,6 @@
 <?php
 ob_start(); 
-
+session_start() ;
 /*session_start() ;
     if($_SESSION['id_role'] !=1 ){ //client
       header("location: erreur.php") ;
@@ -168,7 +168,6 @@ if (isset($_POST['valider'])  ) {
         $nom, 
         $marque, 
         $model,  
-        $disponibilite,  
         $prix, 
         $archive,
         $urlPhoto,  
@@ -229,7 +228,7 @@ function affiche() {
                 <th>Nom</th>
                 <th>Marque</th>
                 <th>Modèle</th>
-                <th>Disponibilité</th>
+                <th>prix</th>
                 <th>Catégorie</th>
                 <th>Action</th>
               </tr>";
@@ -244,7 +243,7 @@ function affiche() {
                 <td>{$objet->nom}</td>
                 <td>{$objet->marque}</td>
                 <td>{$objet->model}</td>
-                <td>{$disponibilite}</td>
+                <td>{$objet->prix}</td>
                 <td>{$objet->id_categorie}</td>
                 <td>
                     <form action='Vehicule.php' method='post'>

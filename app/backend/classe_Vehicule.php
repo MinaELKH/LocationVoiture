@@ -19,7 +19,6 @@ class Vehicule
         ?string $nom = null,
         ?string $marque = null,
         ?string $model = null,
-        ?string $disponibilite = null ,
         ?float $prix = 0,
         ?string $archive = '0',
         ?string $photo = null,
@@ -31,7 +30,6 @@ class Vehicule
         $this->nom = $nom;
         $this->model = $model;
         $this->marque = $marque;
-        $this->disponibilite = $disponibilite;
         $this->prix = $prix;
         $this->archive = $archive;
         $this->photo = $photo;
@@ -46,7 +44,8 @@ class Vehicule
     public function getById($id): ?stdClass
     {
         $params=['id_vehicule' => $id] ;
-        return $this->dbManager->selectById('vehicule', $params);
+        $attributs = [] ;
+        return $this->dbManager->selectAttributById('vehicule',$attributs, $params);
     }
 
     public function ajouterVehicule(): bool
@@ -56,7 +55,6 @@ class Vehicule
             'nom' => $this->nom,
             'model' => $this->model,
             'marque' => $this->marque,
-            'disponibilite' => $this->disponibilite,
             'prix' => $this->prix,
             'archive' => $this->archive,
             'photo' => $this->photo,
@@ -72,7 +70,6 @@ class Vehicule
             'nom' => $this->nom,
             'model' => $this->model,
             'marque' => $this->marque,
-            'disponibilite' => $this->disponibilite,
             'prix' => $this->prix,
             'archive' => $this->archive,
             'photo' => $this->photo,

@@ -1,6 +1,6 @@
 <?php
 ob_start(); 
-
+session_start() ;
 $title = "Gestion des Catégories";
 require "../backend/classe_Categorie.php";
 require "../backend/classe_Vehicule.php";
@@ -260,17 +260,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&  isset($_POST['valider']) && isset($
           //  $uploadResult = uploadImage($_FILES['vehicules']['urlPhoto']);
           //  $urlPhoto = $uploadResult['filePath'];
 
-            $disponibilite = 1;
             $archive =0 ;
-            
-       
-     // Correction
+        
       
         for ($i = 0; $i < count($nom); $i++) {
                 $nomvehicule =  $nom[$i];
                 $marque = $marque[$i];
-                $model = $model[$i];
-                $prix =  floatval($prix[$i]);
+                $model = $model[$i]; 
+                // si l admin ne veux pas entrer le prix des le debut 
+                if (is_array($prix)) {
+                    if (isset($prix[$i])) {
+                        $prix = floatval($prix[$i]);
+                    } else {
+                    
+                        $prix = 0.0; // Valeur par défaut
+                    }
                // vehicules[urlPhoto][]"
 
                if (isset($_FILES['vehicules']['name']['imgVehicule'][$i])) {
@@ -294,8 +298,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&  isset($_POST['valider']) && isset($
                         $id,  
                         $nomvehicule, 
                         $marque, 
-                        $model,  
-                        $disponibilite,  
+                        $model,   
                         $prix, 
                         $archive,
                         $urlPhoto,  
