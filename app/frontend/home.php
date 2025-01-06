@@ -184,7 +184,7 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
 
         <?php require_once('formReservation.php'); ?>
     </main>
-    <!-- <footer class="bg-black bg-opacity-90 pt-12 text-gray-300">
+    <footer class="bg-black bg-opacity-90 pt-12 text-gray-300">
         <div class="container mx-auto px-4 relative">
             <div class="flex flex-wrap -mx-4">
                 <div class="p-4 w-full lg:w-4/12">
@@ -321,7 +321,7 @@ require_once __DIR__ . '/../../includ/DatabaseManager.php';
                 </div>
             </div>
         </div>
-    </footer> -->
+    </footer>
     
 
 </body>

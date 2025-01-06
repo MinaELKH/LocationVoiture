@@ -49,11 +49,12 @@ if (isset($_POST["edit"])) {
             </div>
 
 
-            <div id="divVehicules" class="col-span-2 flex flex-col gap-2.5 ">
-         </div>
-            <div class="col-span-2 flex justify-between gap-8">
+            <div id="divVehicules" class="flex flex-col gap-2.5 ">
+                <!-- ajout des vehicule par js  -->
+             </div>
+            <div class=" flex justify-between gap-8">
                 <button type="button" id="addVehicule_Btn"
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-lg">
+                    class="bg-orange-500 opacity-50 hover:bg-green-700 text-white font-bold py-1 px-3 rounded-lg">
                     +
                 </button>
             </div>
@@ -61,7 +62,7 @@ if (isset($_POST["edit"])) {
 
 
             <div class="flex justify-center">
-                <button type="submit" name="valider" class="w-full bg-[#7F020F] hover:bg-red-700 text-white font-bold py-2 rounded-lg">Valider</button>
+                <button type="submit" name="valider" class="w-full bg-orange-500 hover:bg-orange-600 opacity-70 inline-block text-center text-white ">Valider</button>
             </div>
         </form>
     </div>
@@ -75,9 +76,9 @@ if (isset($_POST["edit"])) {
           //          divVehicules.removeChild(firstVehicule);
           //      });
             addVehicule_Btn.addEventListener('click', function() {
-                 alert ("help") ; 
+                // alert ("help") ; 
                 const newVehicule = document.createElement('div');
-                newVehicule.className = 'relative bg-gray-300 border-2 border-orange-100 grid grid-cols-2 gap-4 p-2.5';
+                newVehicule.className = 'relative  border-b-2 border-gray-500 gap-4 p-2.5';
                 newVehicule.innerHTML = ` 
                     <!-- Nom du Vehicule -->
                      <span 
@@ -274,7 +275,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&  isset($_POST['valider']) && isset($
                     } else {
                     
                         $prix = 0.0; // Valeur par défaut
-                    }
+                    }}
                // vehicules[urlPhoto][]"
 
                if (isset($_FILES['vehicules']['name']['imgVehicule'][$i])) {
