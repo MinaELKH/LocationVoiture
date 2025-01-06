@@ -33,11 +33,16 @@
 
 </head>
 
-<body id="pageLayout" class=" flex flex-col relative bg-[url('img/map3.png')] bg-[#FAF5F1] no-repeat bg-cover    kanit-medium">
+<body id="pageLayout" class=" flex flex-col relative  bg-[#FAF5F1] no-repeat bg-cover    kanit-medium">
     <div class=" flex ">
         <aside class="hidden lg:block   bg-white bg-opacity-80   border-2 border-orange-100 rounded-xl w-1/5 p-2 pt-10">
             <div>
-                <img class="mx-auto" src="img/logo.png" width="150" alt="logo">
+            <a href="#" class="font-bold font-sans hover:text-opacity-75 inline-flex items-center leading-none mr-4 space-x-1 text-orange-500 text-xl uppercase"><svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="2.5em" xml:space="preserve" fill="currentColor" viewBox="0 0 100 100" height="2.5em">
+                        <path d="M38.333 80a11.571 11.571 0 0 1-7.646-2.883A11.724 11.724 0 0 1 26.834 70H10V46.667L43.333 40l20-20H90v26.667H43.995l-27.328 5.465v11.2h11.166a11.787 11.787 0 0 1 4.212-4.807 11.563 11.563 0 0 1 12.577 0 11.789 11.789 0 0 1 4.213 4.807h7.833V70h-6.837a11.719 11.719 0 0 1-3.853 7.117A11.571 11.571 0 0 1 38.333 80Zm0-16.667a5 5 0 1 0 5 5 5.006 5.006 0 0 0-5.001-5Zm27.761-36.666L52.762 40h30.571V26.667Z"></path>
+                        <path d="M56.667 63.333h-7.833a11.6 11.6 0 0 0-21 0H16.667v-11.2l27.328-5.465h12.672Z" opacity="0.2"></path>
+                        <path d="M90 63.333H80v-10h-6.667v10h-10V70h10v10H80V70h10Z"></path>
+                        <path d="M52.762 40h30.571V26.667H66.094Z" opacity="0.2"></path>
+                    </svg><span>Prime Drive</span> </a>
             </div>
             <nav id="menu" class="hidden lg:flex flex-col justify-center mx-auto items-center align-center mt-16">
             <?php
@@ -166,7 +171,14 @@
     <footer class="mt-10">
 
         <section class=" flex flex-col md:flex-row items-center justify-between px-8 md:px-20git bra mb-5 ">
-            <img src="img/logo.png" width="100" alt="logo">
+        <div>
+            <a href="#" class="font-bold font-sans hover:text-opacity-75 inline-flex items-center leading-none mr-4 space-x-1 text-orange-500 text-xl uppercase"><svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="2.5em" xml:space="preserve" fill="currentColor" viewBox="0 0 100 100" height="2.5em">
+                        <path d="M38.333 80a11.571 11.571 0 0 1-7.646-2.883A11.724 11.724 0 0 1 26.834 70H10V46.667L43.333 40l20-20H90v26.667H43.995l-27.328 5.465v11.2h11.166a11.787 11.787 0 0 1 4.212-4.807 11.563 11.563 0 0 1 12.577 0 11.789 11.789 0 0 1 4.213 4.807h7.833V70h-6.837a11.719 11.719 0 0 1-3.853 7.117A11.571 11.571 0 0 1 38.333 80Zm0-16.667a5 5 0 1 0 5 5 5.006 5.006 0 0 0-5.001-5Zm27.761-36.666L52.762 40h30.571V26.667Z"></path>
+                        <path d="M56.667 63.333h-7.833a11.6 11.6 0 0 0-21 0H16.667v-11.2l27.328-5.465h12.672Z" opacity="0.2"></path>
+                        <path d="M90 63.333H80v-10h-6.667v10h-10V70h10v10H80V70h10Z"></path>
+                        <path d="M52.762 40h30.571V26.667H66.094Z" opacity="0.2"></path>
+                    </svg><span>Prime Drive</span> </a>
+            </div>
             <div class="text-orange-500">
                 <h3 class="text-lg font-semibold">Follow us</h3>
                 <div class="flex space-x-4">
@@ -183,12 +195,12 @@
         <section class=" flex flex-col md:flex-row justify-between gap-10 sm:gap-20 px-14 py-10">
             <div class="flex flex-col justify-evenly sm:flex-row gap-10 md:gap-20 w-full text-orange-400">
                 <div>
-                    <h3 class="text-sm font-semibold mb-1">Activités</h3>
+                    <h3 class="text-sm font-semibold mb-1">Catégorie</h3>
                     <hr class="my-2.5 border-t border-orange-400 opacity-80">
                     <div class="text-gray-800">
-                        <a href="#">Surf</a>
-                        <div><a href="#">SKY</a></div>
-                        <div><a href="#">circuit</a></div>
+                        <a href="#">Sport</a>
+                        <div><a href="#">Luxe</a></div>
+                        <div><a href="#">Pick up</a></div>
                     </div>
                 </div>
                 <div>
